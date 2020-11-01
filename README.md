@@ -11,6 +11,7 @@
 - MongoDB
 - Spring data JPA
 - Querydsl
+- MapStruct
 
 ## 제공 기능
 - 회원
