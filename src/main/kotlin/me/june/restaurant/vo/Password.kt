@@ -1,8 +1,7 @@
 package me.june.restaurant.vo
 
+import java.io.Serializable
 import javax.persistence.Embeddable
 
 @Embeddable
-class Password(
-        var password: String
-)
+data class Password(var password: String): Serializable

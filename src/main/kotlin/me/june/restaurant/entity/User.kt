@@ -9,14 +9,14 @@ import javax.persistence.*
 @Table(name = "users")
 class User(
         @Embedded
-        val password: Password,
+        var password: Password,
 
-        val username: String,
+        var username: String,
 
-        val email: String,
+        var email: String,
 
-        val birth: LocalDate,
+        var birth: LocalDate,
 
         @Enumerated(EnumType.STRING)
-        val gender: Gender,
+        var gender: Gender,
 ): BaseEntity()

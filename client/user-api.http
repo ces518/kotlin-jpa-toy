@@ -3,3 +3,21 @@
 # 목록
 GET {{host}}/users
 Accept: application/json
+
+###
+
+# 등록
+
+###
+
+# 조회
+
+###
+
+# 수정
+
+###
+
+# 삭제
+
+###

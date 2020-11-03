@@ -7,4 +7,5 @@ import org.mapstruct.Mapper
 @Mapper(componentModel = "spring")
 interface UserDtoMapper {
     fun entityToDto(entity: User): UserDto.Response
+    fun dtoToEntity(dto: UserDto.CreateRequest): User
 }
