@@ -39,11 +39,17 @@ class UserDto {
             val gender: Gender
     )
 
+    @ApiModel("사용자 수정 요청")
     data class UpdateRequest(
+            @ApiModelProperty("비밀번호", example = "asdf")
             val password: Password,
+            @ApiModelProperty("사용자 이름", example = "ncucu")
             val username: String,
+            @ApiModelProperty("이메일", example = "ncucu.me@kakaocommerce.com")
             val email: String,
+            @ApiModelProperty("생일", example = "1994-04-13")
             val birth: LocalDate,
+            @ApiModelProperty("성별", example = "MAN")
             val gender: Gender
     )
 }
