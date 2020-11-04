@@ -51,6 +51,9 @@ dependencies {
     api("com.querydsl:querydsl-jpa:4.4.0")
     kapt("com.querydsl:querydsl-apt:4.4.0:jpa")
     kapt("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final")
+
+    implementation("io.springfox:springfox-swagger-ui:2.9.2")
+    implementation("io.springfox:springfox-swagger2:2.9.2")
 }
 
 tasks.withType<Test> {
