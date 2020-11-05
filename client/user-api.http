@@ -7,10 +7,23 @@ Accept: application/json
 ###
 
 # 등록
+POST {{host}}/users
+Content-Type: application/json
 
+{
+  "username": "ncucu",
+  "password": {
+    "password": "asdf"
+  },
+  "email": "ncucu.me@kakaocommerce.com",
+  "birth": "1994-04-13",
+  "gender": "MAN"
+}
 ###
 
 # 조회
+GET {{host}}/users/1
+Accept: application/json
 
 ###
 

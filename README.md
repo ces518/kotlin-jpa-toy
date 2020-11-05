@@ -4,6 +4,7 @@
 ## 개발환경
 - Kotlin 1.4
 - Spring Boot 2.3.5.RELEASE
+- Spring Security
 - Gradle
 - H2Database
 - Redis

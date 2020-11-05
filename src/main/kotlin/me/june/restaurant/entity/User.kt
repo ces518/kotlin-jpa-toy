@@ -2,6 +2,7 @@ package me.june.restaurant.entity
 
 import me.june.restaurant.vo.Gender
 import me.june.restaurant.vo.Password
+import me.june.restaurant.vo.Roles
 import java.time.LocalDate
 import javax.persistence.*
 
@@ -19,4 +20,7 @@ class User(
 
         @Enumerated(EnumType.STRING)
         var gender: Gender,
+
+        @Enumerated(EnumType.STRING)
+        val role: Roles = Roles.USER
 ): BaseEntity()
