@@ -19,8 +19,9 @@ class User(
         var birth: LocalDate,
 
         @Enumerated(EnumType.STRING)
-        var gender: Gender,
+        var gender: Gender
+): BaseEntity() {
 
         @Enumerated(EnumType.STRING)
         val role: Roles = Roles.USER
-): BaseEntity()
+}

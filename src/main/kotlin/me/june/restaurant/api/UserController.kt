@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.security.access.annotation.Secured
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
@@ -26,6 +27,7 @@ class UserController(
 
     @ApiOperation("전체 회원 조회")
     @GetMapping
+    @PreAuthorize("hasRole('ADMIN')")
     fun getUsers(
             @ApiParam("페이징 요청 정보")
             @PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable
@@ -33,6 +35,7 @@ class UserController(
 
     @ApiOperation("단일 회원 조회")
     @GetMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun getUser(@PathVariable id: Long) = ResponseEntity.ok(userService.findUser(id).let(userDtoMapper::entityToDto))
 
     @ApiOperation("회원 생성")
@@ -43,6 +46,7 @@ class UserController(
 
     @ApiOperation("회원 수정")
     @PutMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun updateUser(@PathVariable id: Long, @RequestBody dto: UserDto.UpdateRequest): ResponseEntity<UserDto.Response> {
         userService.updateUser(id, dto)
         return ResponseEntity.ok(userService.findUser(id).let(userDtoMapper::entityToDto))
@@ -50,5 +54,6 @@ class UserController(
 
     @ApiOperation("회원 삭제")
     @DeleteMapping("{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     fun deleteUser(@PathVariable id: Long) = ResponseEntity.ok(userService.deleteUser(id))
 }

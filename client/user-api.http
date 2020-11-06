@@ -11,13 +11,13 @@ POST {{host}}/users
 Content-Type: application/json
 
 {
-  "username": "ncucu",
-  "password": {
-    "password": "asdf"
-  },
-  "email": "ncucu.me@kakaocommerce.com",
   "birth": "1994-04-13",
-  "gender": "MAN"
+  "email": "ncucu.me@kakaocommerce.com",
+  "gender": "MAN",
+  "password": {
+    "password": "string"
+  },
+  "username": "ncucu"
 }
 ###
 
