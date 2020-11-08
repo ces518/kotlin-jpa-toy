@@ -4,11 +4,9 @@ import me.june.restaurant.dto.UserDto
 import me.june.restaurant.mapper.UserDtoMapper
 import me.june.restaurant.repository.UserRepository
 import me.june.restaurant.vo.Password
-import me.june.restaurant.vo.UserAccount
+import me.june.restaurant.config.security.UserAccount
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
-import org.springframework.security.core.userdetails.User
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder

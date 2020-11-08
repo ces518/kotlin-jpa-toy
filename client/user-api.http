@@ -15,9 +15,9 @@ Content-Type: application/json
   "email": "ncucu.me@kakaocommerce.com",
   "gender": "MAN",
   "password": {
-    "password": "string"
+    "password": "1234"
   },
-  "username": "ncucu"
+  "username": "ncucu123"
 }
 ###
 

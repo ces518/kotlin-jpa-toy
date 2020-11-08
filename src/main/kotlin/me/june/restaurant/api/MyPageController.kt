@@ -4,6 +4,7 @@ import me.june.restaurant.entity.User
 import me.june.restaurant.mapper.UserDtoMapper
 import me.june.restaurant.service.UserService
 import me.june.restaurant.support.AuthUser
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -16,5 +17,6 @@ class MyPageController(
 ) {
 
     @GetMapping("info")
+    @PreAuthorize("hasRole('USER')")
     fun getMyInfo(@AuthUser user: User) = userService.findUser(user.id).let(userDtoMapper::entityToDto)
 }

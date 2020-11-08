@@ -1,0 +1,11 @@
+# Login API
+
+# 로그인
+POST {{host}}/login
+Content-Type: application/json
+
+{
+  "username": "ncucu123",
+  "password": "1234"
+}
+

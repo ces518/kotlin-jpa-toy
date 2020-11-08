@@ -1,4 +1,4 @@
-package me.june.restaurant.vo
+package me.june.restaurant.config.security
 
 import org.springframework.security.core.userdetails.User as Account
 import me.june.restaurant.entity.User
