@@ -12,6 +12,7 @@ class User(
         @Embedded
         var password: Password,
 
+        @Column(unique = true)
         var username: String,
 
         var email: String,

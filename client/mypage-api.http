@@ -3,6 +3,6 @@
 # 내정보 조회
 GET {{host}}/mypage/info
 Accept: application/json
-Authorization: Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjA0ODM2NjcwLCJleHAiOjE2MDQ5MjMwNzB9.U76CrzbBF53ZjPUtdFIthkhyCZagHJVRYDOhMeqCOBV1FY0mGM0gHZjjfPAU1B9iU23J6U3WaE54mH5IxQXrAw
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiIyIiwiaWF0IjoxNjA0ODM2NjcwLCJleHAiOjE2MDQ5MjMwNzB9.U76CrzbBF53ZjPUtdFIthkhyCZagHJVRYDOhMeqCOBV1FY0mGM0gHZjjfPAU1B9iU23J6U3WaE54mH5IxQXrAw
 
 
