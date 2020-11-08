@@ -43,6 +43,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testImplementation("org.springframework.security:spring-security-test")
     implementation("org.mapstruct:mapstruct:1.4.1.Final")
     kapt("org.mapstruct:mapstruct-processor:1.4.1.Final")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")

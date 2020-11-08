@@ -23,5 +23,5 @@ class User(
 ): BaseEntity() {
 
         @Enumerated(EnumType.STRING)
-        val role: Roles = Roles.USER
+        var role: Roles = Roles.USER
 }

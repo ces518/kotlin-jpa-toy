@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import me.june.restaurant.dto.UserDto
 import me.june.restaurant.entity.User
 import me.june.restaurant.repository.UserRepository
+import me.june.restaurant.support.WithMockAdmin
 import me.june.restaurant.vo.Gender
 import me.june.restaurant.vo.Password
 import org.junit.jupiter.api.DisplayName
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
+import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -29,6 +31,7 @@ internal class UserControllerTest(
 ) {
 
     @Test
+    @WithMockAdmin
     @DisplayName("유저 목록 조회")
     fun `유저 목록 조회 api`() {
         // given
@@ -62,6 +65,7 @@ internal class UserControllerTest(
     }
 
     @Test
+    @WithMockAdmin
     @DisplayName("유저 상세 조회")
     fun `유저 단건 조회 api`() {
         // given
@@ -127,6 +131,7 @@ internal class UserControllerTest(
     }
 
     @Test
+    @WithMockAdmin
     @DisplayName("유저 수정")
     fun `유저 수정 api`() {
         // given
@@ -170,6 +175,7 @@ internal class UserControllerTest(
     }
 
     @Test
+    @WithMockAdmin
     @DisplayName("유저 삭제")
     fun `유저 삭제 api`() {
         // given
