@@ -36,7 +36,8 @@ class UserDto {
             @ApiModelProperty("생일", example = "1994-04-13")
             val birth: LocalDate,
             @ApiModelProperty("성별", example = "MAN")
-            val gender: Gender
+            val gender: Gender,
+            val passwordValue: String
     )
 
     @ApiModel("사용자 수정 요청")
