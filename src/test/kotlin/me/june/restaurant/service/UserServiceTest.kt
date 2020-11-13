@@ -98,7 +98,7 @@ internal class UserServiceTest(
         )
 
         val mockUser = User(
-                password = Password(request.password),
+                password = Password(passwordEncoder.encode(request.password)),
                 username = request.username,
                 email = request.email,
                 birth = request.birth,
@@ -108,7 +108,7 @@ internal class UserServiceTest(
         given(userRepository.findById(anyLong())).willReturn(Optional.of(mockUser))
 
         // when
-        val savedUserId = userService.createdUser(request)
+        val savedUserId = userService.createUser(request)
 
         // then
         val ( password, username, email, birth, gender ) = request
@@ -116,7 +116,7 @@ internal class UserServiceTest(
 
         assertThat(findUser).isNotNull
         findUser!!
-        assertThat(findUser.password.password).isEqualTo(password)
+        assertThat(findUser.password.matchPassword(password, passwordEncoder)).isTrue
         assertThat(findUser.username).isEqualTo(username)
         assertThat(findUser.email).isEqualTo(email)
         assertThat(findUser.birth).isEqualTo(birth)

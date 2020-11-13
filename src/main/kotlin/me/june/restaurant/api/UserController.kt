@@ -39,7 +39,7 @@ class UserController(
 
     @ApiOperation("회원 생성")
     @PostMapping
-    fun createUser(@RequestBody dto: UserDto.CreateRequest) = userService.createdUser(dto).let {
+    fun createUser(@RequestBody dto: UserDto.CreateRequest) = userService.createUser(dto).let {
         ResponseEntity.status(HttpStatus.CREATED).body(userService.findUser(it).let(userDtoMapper::entityToDto))
     }
 

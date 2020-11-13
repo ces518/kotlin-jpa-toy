@@ -27,7 +27,7 @@ class UserService (
             ?: throw UserNotFoundException("$id 에 해당하는 유저를 찾을 수 없습니다.")
 
     @Transactional
-    fun createdUser(dto: UserDto.CreateRequest): Long {
+    fun createUser(dto: UserDto.CreateRequest): Long {
         val entity = userDtoMapper.dtoToEntity(dto).apply {
             this.password = Password(passwordEncoder.encode(this.password.password))
         }

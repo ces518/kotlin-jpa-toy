@@ -9,8 +9,7 @@ import me.june.restaurant.vo.Gender
 import me.june.restaurant.vo.Password
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest
 import org.springframework.http.MediaType
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
@@ -21,8 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 import java.time.LocalDate
 
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-@SpringBootTest
-@AutoConfigureMockMvc
+@WebMvcTest(UserController::class)
 internal class UserControllerTest(
         private val userRepository: UserRepository,
         private val mockMvc: MockMvc,
