@@ -7,6 +7,7 @@ import me.june.restaurant.vo.Password
 import me.june.restaurant.config.security.UserAccount
 import org.springframework.cache.annotation.CacheEvict
 import org.springframework.cache.annotation.Cacheable
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -22,8 +23,8 @@ class UserService (
 ): UserDetailsService {
 
     @Cacheable(value = ["findUser"], key = "#id")
-    fun findUser(id: Long) =
-            userRepository.findById(id).orElseThrow{ UserNotFoundException("$id 에 해당하는 유저를 찾을 수 없습니다.") }
+    fun findUser(id: Long) = userRepository.findByIdOrNull(id)
+            ?: throw UserNotFoundException("$id 에 해당하는 유저를 찾을 수 없습니다.")
 
     @Transactional
     fun createdUser(dto: UserDto.CreateRequest): Long {

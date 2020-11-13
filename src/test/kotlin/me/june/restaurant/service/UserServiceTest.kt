@@ -19,6 +19,8 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.mock.mockito.MockBean
 import org.springframework.context.annotation.Import
+import org.springframework.data.repository.findByIdOrNull
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.TestConstructor
 import java.time.LocalDate
 import java.util.*
@@ -37,6 +39,7 @@ import javax.persistence.Enumerated
 @EnableAutoConfiguration
 internal class UserServiceTest(
         private val userService: UserService,
+        private val passwordEncoder: PasswordEncoder,
 ) {
 
     @MockBean
@@ -46,13 +49,17 @@ internal class UserServiceTest(
     @DisplayName("유저 조회")
     fun `존재하는 유저 조회시 성공한다`() {
         // given
-        val user = User(password = Password("asdf"),
+        val mockUser = User(password = Password("asdf"),
                 username = "ncucu",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
         )
-        val savedUser = userRepository.save(user)
+
+        given(userRepository.save(any(User::class.java))).willReturn(mockUser)
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(mockUser))
+
+        val savedUser = userRepository.save(mockUser)
 
         // when
         val findUser = userService.findUser(savedUser.id)
@@ -68,6 +75,9 @@ internal class UserServiceTest(
     @Test
     @DisplayName("존재하지 않는 유저 조회")
     fun `존재하지 않는 유저 조회시 실패한다`() {
+        // given
+        given(userRepository.findById(anyLong())).willReturn(Optional.empty())
+
         // when
         val id = -1L
         val ex = Assertions.assertThrows(UserNotFoundException::class.java) { userService.findUser(id) }
@@ -102,9 +112,10 @@ internal class UserServiceTest(
 
         // then
         val ( password, username, email, birth, gender ) = request
-        val findUser = userRepository.findById(savedUserId).orElse(null)
+        val findUser = userRepository.findByIdOrNull(savedUserId)
 
         assertThat(findUser).isNotNull
+        findUser!!
         assertThat(findUser.password.password).isEqualTo(password)
         assertThat(findUser.username).isEqualTo(username)
         assertThat(findUser.email).isEqualTo(email)
@@ -116,13 +127,16 @@ internal class UserServiceTest(
     @DisplayName("유저 정보 수정")
     fun `유저 정보 수정에 성공한다`() {
         // given
-        val user = User(password = Password("asdf"),
+        val mockUser = User(password = Password(passwordEncoder.encode("asdf")),
                 username = "ncucu",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
         )
-        val savedUser = userRepository.save(user)
+        given(userRepository.save(any(User::class.java))).willReturn(mockUser)
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(mockUser))
+
+        val savedUser = userRepository.save(mockUser)
 
         val request = UserDto.UpdateRequest(
                 password = "asdf1234",
@@ -137,10 +151,12 @@ internal class UserServiceTest(
 
         // then
         val ( password, username, email, birth, gender ) = request
-        val findUser = userRepository.findById(savedUser.id).orElse(null)
+        val findUser = userRepository.findByIdOrNull(savedUser.id)
 
         assertThat(findUser).isNotNull
-        assertThat(findUser.password).isEqualTo(password)
+        findUser!!
+
+        assertThat(findUser.password.matchPassword(password, passwordEncoder)).isTrue
         assertThat(findUser.username).isEqualTo(username)
         assertThat(findUser.email).isEqualTo(email)
         assertThat(findUser.birth).isEqualTo(birth)
@@ -151,6 +167,8 @@ internal class UserServiceTest(
     @DisplayName("존재하지 않는 유저 수정")
     fun `존재하지 않는 유저 수정시 실패한다`() {
         // given
+        given(userRepository.findById(anyLong())).willReturn(Optional.empty())
+
         val request = UserDto.UpdateRequest(
                 password = "asdf1234",
                 username = "ncucudas",
@@ -169,25 +187,33 @@ internal class UserServiceTest(
     @DisplayName("유저 삭제")
     fun `유저 삭제에 성공한다`() {
         // given
-        val user = User(password = Password("asdf"),
+        val mockUser = User(password = Password("asdf"),
                 username = "ncucu",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
         )
-        val savedUser = userRepository.save(user)
+
+        given(userRepository.save(any(User::class.java))).willReturn(mockUser)
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(mockUser))
+
+        val savedUser = userRepository.save(mockUser)
 
         // when
         userService.deleteUser(savedUser.id)
+        given(userRepository.findById(anyLong())).willReturn(Optional.empty())
 
         // then
-        val findUser = userRepository.findById(savedUser.id).orElse(null)
+        val findUser = userRepository.findByIdOrNull(savedUser.id)
         assertThat(findUser).isNull()
     }
 
     @Test
     @DisplayName("유저 삭제 실패")
     fun `존재하지 않는 유저 삭제시 실패한다`() {
+        // given
+        given(userRepository.findById(anyLong())).willReturn(Optional.empty())
+
         // when
         val id = -1L
         val ex = Assertions.assertThrows(UserNotFoundException::class.java) { userService.deleteUser(id) }
