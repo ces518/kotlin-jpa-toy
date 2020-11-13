@@ -3,16 +3,13 @@ package me.june.restaurant.config.token
 import io.jsonwebtoken.*
 import me.june.restaurant.support.logger
 import org.springframework.http.HttpHeaders
-import org.springframework.stereotype.Component
 import org.springframework.util.StringUtils
-import java.lang.IllegalArgumentException
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.time.temporal.ChronoUnit
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 
-@Component
 class JwtAuthTokenProvider: AuthTokenProvider {
 
     companion object {

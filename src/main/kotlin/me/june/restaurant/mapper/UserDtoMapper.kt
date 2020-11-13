@@ -10,7 +10,7 @@ interface UserDtoMapper {
     fun entityToDto(entity: User): UserDto.Response
 
     @Mappings(
-            Mapping(source = "dto", target = "password", qualifiedByName = ["password"])
+            Mapping(source = "dto.password", target = "password", qualifiedByName = ["password"])
     )
     fun dtoToEntity(dto: UserDto.CreateRequest): User
 
@@ -18,6 +18,6 @@ interface UserDtoMapper {
      * 맵스트럭츠 사용시 매핑이 필요한 값 객체가 필요한 경우 별도의 생성 메소드를 사용
      */
     @Named("password")
-    @Mapping(source = "passwordValue", target = "password")
-    fun toPassword(dto: UserDto.CreateRequest): Password
+    @Mapping(source = "value", target = "password")
+    fun toPassword(value: String): Password
 }

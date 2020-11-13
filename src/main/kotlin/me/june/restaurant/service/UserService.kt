@@ -38,7 +38,7 @@ class UserService (
     @CacheEvict(value = ["findUser"], key = "#id")
     fun updateUser(id: Long, dto:UserDto.UpdateRequest) {
         findUser(id).apply {
-            this.password = dto.password
+            this.password = Password(passwordEncoder.encode(dto.password))
             this.username = dto.username
             this.birth = dto.birth
             this.email = dto.email

@@ -12,7 +12,6 @@ import org.junit.jupiter.api.Test
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.http.MediaType
-import org.springframework.security.test.context.support.WithMockUser
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*
@@ -99,11 +98,11 @@ internal class UserControllerTest(
     @DisplayName("유저 생성")
     fun `유저 생성 api`() {
         // given
-        val request = UserDto.CreateRequest(password = Password("asdf"),
+        val request = UserDto.CreateRequest(password = "asdf",
                 username = "ncucu",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN,
+                gender = Gender.MAN
         )
 
         // when
@@ -142,7 +141,7 @@ internal class UserControllerTest(
                 gender = Gender.MAN)
         val savedUser = userRepository.save(user)
 
-        val request = UserDto.UpdateRequest(password = Password("asdf1234"),
+        val request = UserDto.UpdateRequest(password = "asdf1234",
                 username = "ncucudas",
                 email = "ncucudas.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),

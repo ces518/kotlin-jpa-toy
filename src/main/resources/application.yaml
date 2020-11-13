@@ -6,7 +6,7 @@ spring:
         format_sql: true
   redis:
     host: localhost
-    port: 6370
+    port: 6379
   cache:
     redis:
       time-to-live: 60

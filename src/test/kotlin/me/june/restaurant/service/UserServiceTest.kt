@@ -1,7 +1,12 @@
 package me.june.restaurant.service
 
+import me.june.restaurant.config.EmbeddedRedisConfig
+import me.june.restaurant.config.MethodSecurityConfig
+import me.june.restaurant.config.SecurityConfig
 import me.june.restaurant.dto.UserDto
 import me.june.restaurant.entity.User
+import me.june.restaurant.mapper.UserDtoMapper
+import me.june.restaurant.mapper.UserDtoMapperImpl
 import me.june.restaurant.repository.UserRepository
 import me.june.restaurant.vo.Gender
 import me.june.restaurant.vo.Password
@@ -9,16 +14,33 @@ import org.assertj.core.api.Assertions.assertThat
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
+import org.mockito.BDDMockito.*
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.mock.mockito.MockBean
+import org.springframework.context.annotation.Import
 import org.springframework.test.context.TestConstructor
 import java.time.LocalDate
+import java.util.*
+import javax.persistence.Column
+import javax.persistence.Embedded
+import javax.persistence.EnumType
+import javax.persistence.Enumerated
 
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
-@SpringBootTest
+@SpringBootTest(classes = [UserService::class, UserDtoMapperImpl::class])
+@Import(
+        SecurityConfig::class,
+        MethodSecurityConfig::class,
+        EmbeddedRedisConfig::class
+)
+@EnableAutoConfiguration
 internal class UserServiceTest(
         private val userService: UserService,
-        private val userRepository: UserRepository
 ) {
+
+    @MockBean
+    private lateinit var userRepository: UserRepository
 
     @Test
     @DisplayName("유저 조회")
@@ -58,12 +80,22 @@ internal class UserServiceTest(
     @DisplayName("유저 생성 성공")
     fun `유저 생성에 성공한다`() {
         // given
-        val request = UserDto.CreateRequest(password = Password("asdf"),
+        val request = UserDto.CreateRequest(password = "asdf",
                 username = "ncucu",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
         )
+
+        val mockUser = User(
+                password = Password(request.password),
+                username = request.username,
+                email = request.email,
+                birth = request.birth,
+                gender = request.gender
+        )
+        given(userRepository.save(any(User::class.java))).willReturn(mockUser)
+        given(userRepository.findById(anyLong())).willReturn(Optional.of(mockUser))
 
         // when
         val savedUserId = userService.createdUser(request)
@@ -73,7 +105,7 @@ internal class UserServiceTest(
         val findUser = userRepository.findById(savedUserId).orElse(null)
 
         assertThat(findUser).isNotNull
-        assertThat(findUser.password).isEqualTo(password)
+        assertThat(findUser.password.password).isEqualTo(password)
         assertThat(findUser.username).isEqualTo(username)
         assertThat(findUser.email).isEqualTo(email)
         assertThat(findUser.birth).isEqualTo(birth)
@@ -93,7 +125,7 @@ internal class UserServiceTest(
         val savedUser = userRepository.save(user)
 
         val request = UserDto.UpdateRequest(
-                password = Password("asdf1234"),
+                password = "asdf1234",
                 username = "ncucudas",
                 email = "ncucudas.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
@@ -120,7 +152,7 @@ internal class UserServiceTest(
     fun `존재하지 않는 유저 수정시 실패한다`() {
         // given
         val request = UserDto.UpdateRequest(
-                password = Password("asdf1234"),
+                password = "asdf1234",
                 username = "ncucudas",
                 email = "ncucudas.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),

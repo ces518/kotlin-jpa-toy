@@ -1,6 +1,7 @@
 package me.june.restaurant.config
 
 import me.june.restaurant.config.security.TokenAuthenticationFilter
+import me.june.restaurant.config.token.JwtAuthTokenProvider
 import me.june.restaurant.support.logger
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest
 import org.springframework.context.annotation.Bean
@@ -59,6 +60,8 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
     @Bean
     fun tokenAuthenticationFilter() = TokenAuthenticationFilter()
 
+    @Bean
+    fun jwtAuthTokenProvider() = JwtAuthTokenProvider()
 
     @Bean
     fun corsConfigurationSource(): CorsConfigurationSource {
