@@ -40,7 +40,7 @@ class UserService (
     fun updateUser(id: Long, dto:UserDto.UpdateRequest) {
         findUser(id).apply {
             this.password = Password(passwordEncoder.encode(dto.password))
-            this.username = dto.username
+            this.name = dto.name
             this.birth = dto.birth
             this.email = dto.email
             this.gender = dto.gender

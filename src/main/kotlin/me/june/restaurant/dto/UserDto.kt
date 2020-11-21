@@ -13,8 +13,10 @@ class UserDto {
     data class Response(
             @ApiModelProperty("회원 ID", example = "1")
             val id: Long,
-            @ApiModelProperty("회원 명", example = "ncucu")
+            @ApiModelProperty("로그인 ID", example = "ncucu")
             val username: String,
+            @ApiModelProperty("사용자 명", example = "엔꾸꾸")
+            val name: String,
             @ApiModelProperty("이메일", example = "ncucu.me@kakaocommerce.com")
             val email: String,
             @ApiModelProperty("생일")
@@ -29,8 +31,10 @@ class UserDto {
     data class CreateRequest(
             @ApiModelProperty("비밀번호", example = "asdf")
             val password: String,
-            @ApiModelProperty("사용자 이름", example = "ncucu")
+            @ApiModelProperty("로그인 ID", example = "ncucu")
             val username: String,
+            @ApiModelProperty("사용자 명", example = "엔꾸꾸")
+            val name: String,
             @ApiModelProperty("이메일", example = "ncucu.me@kakaocommerce.com")
             val email: String,
             @ApiModelProperty("생일", example = "1994-04-13")
@@ -43,8 +47,8 @@ class UserDto {
     data class UpdateRequest(
             @ApiModelProperty("비밀번호", example = "asdf")
             val password: String,
-            @ApiModelProperty("사용자 이름", example = "ncucu")
-            val username: String,
+            @ApiModelProperty("사용자 명", example = "엔꾸꾸")
+            val name: String,
             @ApiModelProperty("이메일", example = "ncucu.me@kakaocommerce.com")
             val email: String,
             @ApiModelProperty("생일", example = "1994-04-13")

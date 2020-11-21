@@ -54,8 +54,14 @@ dependencies {
     kapt("com.querydsl:querydsl-apt:4.4.0:jpa")
     kapt("org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.2.Final")
 
-    implementation("io.springfox:springfox-swagger-ui:2.9.2")
-    implementation("io.springfox:springfox-swagger2:2.9.2")
+    implementation("io.springfox:springfox-boot-starter:3.0.0")
+    implementation("io.springfox:springfox-swagger-ui:3.0.0")
+
+//    implementation("io.springfox:springfox-swagger2:3.0.0")
+
+    implementation("io.swagger:swagger-models:1.5.21")
+
+    implementation("org.springframework.boot:spring-boot-starter-hateoas")
 
     implementation("io.jsonwebtoken:jjwt:0.5.1")
 }

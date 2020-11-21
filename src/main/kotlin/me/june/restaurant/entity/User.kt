@@ -15,6 +15,8 @@ class User(
         @Column(unique = true)
         var username: String,
 
+        var name: String,
+
         var email: String,
 
         var birth: LocalDate,

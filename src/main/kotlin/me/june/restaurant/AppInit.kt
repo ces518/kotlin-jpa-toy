@@ -20,6 +20,7 @@ class AppInit(
 
         val admin = User(password = Password(passwordEncoder.encode("asdf")),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN)
