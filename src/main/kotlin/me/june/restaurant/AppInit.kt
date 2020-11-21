@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import java.time.LocalDate
 
+@Component
 class AppInit(
         private val userRepository: UserRepository,
         private val passwordEncoder: PasswordEncoder

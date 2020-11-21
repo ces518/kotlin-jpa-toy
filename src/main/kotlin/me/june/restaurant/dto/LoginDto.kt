@@ -9,6 +9,6 @@ class LoginDto {
 
     data class Response(
             val success: Boolean = true,
-            val token: String
+            val message: String = "로그인에 성공했습니다."
     )
 }
