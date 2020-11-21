@@ -1,8 +1,11 @@
 package me.june.restaurant.config.security
 
+import io.jsonwebtoken.ExpiredJwtException
 import me.june.restaurant.config.token.AuthTokenProvider
+import me.june.restaurant.config.token.JwtAuthTokenProvider
 import me.june.restaurant.entity.User
 import me.june.restaurant.service.UserService
+import me.june.restaurant.support.CookieUtils
 import me.june.restaurant.vo.Gender
 import me.june.restaurant.vo.Password
 import me.june.restaurant.vo.Roles
@@ -21,14 +24,14 @@ import javax.servlet.http.HttpServletResponse
 class TokenAuthenticationFilter: OncePerRequestFilter() {
 
     @Autowired
-    private lateinit var authTokenProvider: AuthTokenProvider
+    private lateinit var authTokenProvider: JwtAuthTokenProvider
 
     @Autowired
     private lateinit var userService: UserService
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val dummyAuthId = request.getHeader("dummy-auth-id")
-        when (val isDummyAuth = dummyAuthId == "1") {
+        when (dummyAuthId == "1") {
             true -> {
                 val dummyUser = UserAccount(
                         User(password = Password("1234"),
@@ -45,21 +48,40 @@ class TokenAuthenticationFilter: OncePerRequestFilter() {
                 SecurityContextHolder.getContext().authentication = authentication
             }
             else -> {
-                val token = authTokenProvider.parseTokenString(request)
-                if (authTokenProvider.validateToken(token)) {
-                    token!!
-                    try {
+                val accessToken = authTokenProvider.parseTokenString(request)
+                try {
+                    if (authTokenProvider.validateToken(accessToken)) {
+                        validTokenProcess(accessToken!!, request)
+                    }
+                } catch (e: ExpiredJwtException) {
+                    // accessToken 만료시 RefreshToken 사용
+                    val refreshToken = CookieUtils.getCookie(request, JwtAuthTokenProvider.REFRESH_TOKEN)
+                    if (authTokenProvider.validateToken(refreshToken?.value)) {
+                        val token = refreshToken!!.value
+                        validTokenProcess(token, request)
                         val userId = authTokenProvider.getTokenOwnerId(token)
-                        val userAccount = UserAccount(userService.findUser(userId))
-                        val authentication = UsernamePasswordAuthenticationToken(userAccount, userAccount.password, userAccount.authorities)
-                        authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
-                        SecurityContextHolder.getContext().authentication = authentication
-                    } catch (e: UsernameNotFoundException) {
-                        // TODO Exception Throw
+                        val newAccessToken = CookieUtils.createCookie(
+                                JwtAuthTokenProvider.ACCESS_TOKEN,
+                                authTokenProvider.createToken(userId),
+                                JwtAuthTokenProvider.EXPIRATION_MS.toInt(),
+                        )
+                        response.addCookie(newAccessToken)
                     }
                 }
             }
         }
         filterChain.doFilter(request, response)
+    }
+
+    private fun validTokenProcess(accessToken: String, request: HttpServletRequest) {
+        try {
+            val userId = authTokenProvider.getTokenOwnerId(accessToken)
+            val userAccount = UserAccount(userService.findUser(userId))
+            val authentication = UsernamePasswordAuthenticationToken(userAccount, userAccount.password, userAccount.authorities)
+            authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
+            SecurityContextHolder.getContext().authentication = authentication
+        } catch (e: UsernameNotFoundException) {
+            // TODO Exception Throw
+        }
     }
 }
