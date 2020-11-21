@@ -36,11 +36,11 @@ class TokenAuthenticationFilter: OncePerRequestFilter() {
                                 name = "admin",
                                 email = "admin@admin.com",
                                 birth = LocalDate.now(),
-                                gender = Gender.MAN)
+                                gender = Gender.MAN).apply {
+                            role = Roles.ADMIN
+                        }
                 )
-                val authentication = UsernamePasswordAuthenticationToken(
-                        dummyUser, dummyUser.password, setOf(SimpleGrantedAuthority(Roles.ADMIN.name))
-                )
+                val authentication = UsernamePasswordAuthenticationToken(dummyUser, dummyUser.password, dummyUser.authorities)
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
                 SecurityContextHolder.getContext().authentication = authentication
             }

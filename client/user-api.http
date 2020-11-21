@@ -3,7 +3,7 @@
 # 목록
 GET {{host}}/users
 Accept: application/json
-
+dummy-auth-id: 1
 ###
 
 # 등록

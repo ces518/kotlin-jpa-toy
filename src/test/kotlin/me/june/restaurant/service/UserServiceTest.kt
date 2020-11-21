@@ -51,6 +51,7 @@ internal class UserServiceTest(
         // given
         val mockUser = User(password = Password("asdf"),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
@@ -92,6 +93,7 @@ internal class UserServiceTest(
         // given
         val request = UserDto.CreateRequest(password = "asdf",
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
@@ -100,6 +102,7 @@ internal class UserServiceTest(
         val mockUser = User(
                 password = Password(passwordEncoder.encode(request.password)),
                 username = request.username,
+                name = "엔꾸꾸",
                 email = request.email,
                 birth = request.birth,
                 gender = request.gender
@@ -129,6 +132,7 @@ internal class UserServiceTest(
         // given
         val mockUser = User(password = Password(passwordEncoder.encode("asdf")),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
@@ -140,7 +144,7 @@ internal class UserServiceTest(
 
         val request = UserDto.UpdateRequest(
                 password = "asdf1234",
-                username = "ncucudas",
+                name = "엔꾸꾸",
                 email = "ncucudas.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
@@ -171,7 +175,7 @@ internal class UserServiceTest(
 
         val request = UserDto.UpdateRequest(
                 password = "asdf1234",
-                username = "ncucudas",
+                name = "엔꾸꾸",
                 email = "ncucudas.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
@@ -189,6 +193,7 @@ internal class UserServiceTest(
         // given
         val mockUser = User(password = Password("asdf"),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,

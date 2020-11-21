@@ -13,13 +13,14 @@ import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.CollectionModel
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.Link
+import org.springframework.hateoas.PagedModel
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.*
 
-@Api(tags = ["회원 API"])
+@Api(tags = ["USER-API"])
 @RestController
 @RequestMapping("/users")
 class UserController(
@@ -41,10 +42,10 @@ class UserController(
     fun getUsers(
             @PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
             assembler: PagedResourcesAssembler<UserDto.Response>,
-    ) {
+    ): ResponseEntity<PagedModel<EntityModel<UserDto.Response>>> {
         val models = assembler.toModel(userRepository.findAll(pageable).map(userDtoMapper::entityToDto))
-        models.add(Link.of("/swagger-ui.html#/회원%20API/getUsersUsingGET").withRel("profile"))
-        ResponseEntity.ok(models)
+        models.add(Link.of("/swagger-ui/index.html#/USER-API/getUsersUsingGET").withRel("profile"))
+        return ResponseEntity.ok(models)
     }
 
     @ApiOperation("단일 회원 조회")

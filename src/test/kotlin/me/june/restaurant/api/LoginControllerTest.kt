@@ -33,6 +33,7 @@ internal class LoginControllerTest(
         // given
         val user = User(password = Password("asdf"),
                 username = "ncucudas",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN)

@@ -38,6 +38,7 @@ internal class UserControllerTest(
         // given
         val user = User(password = Password("asdf"),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN)
@@ -54,15 +55,15 @@ internal class UserControllerTest(
 
         // then
         result.andExpect(status().isOk)
-                .andExpect(jsonPath("$.pageable").exists())
-                .andExpect(jsonPath("$.pageable.pageNumber").exists())
-                .andExpect(jsonPath("$.pageable.pageNumber").value("0"))
-                .andExpect(jsonPath("$.content").exists())
-                .andExpect(jsonPath("$.content[0].id").exists())
-                .andExpect(jsonPath("$.content[0].email").exists())
-                .andExpect(jsonPath("$.content[0].birth").exists())
-                .andExpect(jsonPath("$.content[0].gender").exists())
-                .andExpect(jsonPath("$.content[0].createdAt").exists())
+                .andExpect(jsonPath("$.page").exists())
+                .andExpect(jsonPath("$.page.number").exists())
+                .andExpect(jsonPath("$.page.number").value("0"))
+                .andExpect(jsonPath("$._embedded.responseList").exists())
+                .andExpect(jsonPath("$._embedded.responseList[0].id").exists())
+                .andExpect(jsonPath("$._embedded.responseList[0].email").exists())
+                .andExpect(jsonPath("$._embedded.responseList[0].birth").exists())
+                .andExpect(jsonPath("$._embedded.responseList[0].gender").exists())
+                .andExpect(jsonPath("$._embedded.responseList[0].createdAt").exists())
     }
 
     @Test
@@ -72,6 +73,7 @@ internal class UserControllerTest(
         // given
         val user = User(password = Password("asdf"),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN)
@@ -102,6 +104,7 @@ internal class UserControllerTest(
         // given
         val request = UserDto.CreateRequest(password = "asdf",
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN
@@ -116,7 +119,7 @@ internal class UserControllerTest(
                 .andDo(print())
 
         // then
-        val ( password, username, email, birth, gender ) = request
+        val ( password, username, name, email, birth, gender ) = request
 
         result.andExpect(status().isCreated)
                 .andExpect(jsonPath("$.id").exists())
@@ -138,13 +141,14 @@ internal class UserControllerTest(
         // given
         val user = User(password = Password("asdf"),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN)
         val savedUser = userRepository.save(user)
 
         val request = UserDto.UpdateRequest(password = "asdf1234",
-                username = "ncucudas",
+                name = "엔꾸꾸",
                 email = "ncucudas.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN,
@@ -159,13 +163,13 @@ internal class UserControllerTest(
                 .andDo(print())
 
         // then
-        val ( password, username, email, birth, gender ) = request
+        val ( password, name, email, birth, gender ) = request
 
         result.andExpect(status().isOk)
                 .andExpect(jsonPath("$.id").exists())
                 .andExpect(jsonPath("$.id").value(savedUser.id))
-                .andExpect(jsonPath("$.username").exists())
-                .andExpect(jsonPath("$.username").value(username))
+                .andExpect(jsonPath("$.name").exists())
+                .andExpect(jsonPath("$.name").value(name))
                 .andExpect(jsonPath("$.email").exists())
                 .andExpect(jsonPath("$.email").value(email))
                 .andExpect(jsonPath("$.birth").exists())
@@ -182,6 +186,7 @@ internal class UserControllerTest(
         // given
         val user = User(password = Password("asdf"),
                 username = "ncucu",
+                name = "엔꾸꾸",
                 email = "ncucu.me@kakaocommerce.com",
                 birth = LocalDate.of(1994, 4, 13),
                 gender = Gender.MAN)
