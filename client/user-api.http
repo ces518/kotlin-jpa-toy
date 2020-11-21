@@ -9,21 +9,22 @@ dummy-auth-id: 1
 # 등록
 POST {{host}}/users
 Content-Type: application/json
+dummy-auth-id: 1
 
 {
   "birth": "1994-04-13",
   "email": "ncucu.me@kakaocommerce.com",
   "gender": "MAN",
-  "password": {
-    "password": "1234"
-  },
-  "username": "ncucu123"
+  "password": "1234",
+  "username": "ncucu123",
+  "name": "ncucu"
 }
 ###
 
 # 조회
 GET {{host}}/users/1
 Accept: application/json
+dummy-auth-id: 1
 
 ###
 

@@ -3,7 +3,6 @@ package me.june.restaurant.dto
 import io.swagger.annotations.ApiModel
 import io.swagger.annotations.ApiModelProperty
 import me.june.restaurant.vo.Gender
-import me.june.restaurant.vo.Password
 import java.time.LocalDate
 import java.time.LocalDateTime
 
