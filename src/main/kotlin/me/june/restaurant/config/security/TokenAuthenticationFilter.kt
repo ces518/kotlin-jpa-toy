@@ -4,6 +4,7 @@ import io.jsonwebtoken.ExpiredJwtException
 import me.june.restaurant.config.token.AuthTokenProvider
 import me.june.restaurant.config.token.JwtAuthTokenProvider
 import me.june.restaurant.entity.User
+import me.june.restaurant.service.UserNotFoundException
 import me.june.restaurant.service.UserService
 import me.june.restaurant.support.CookieUtils
 import me.june.restaurant.vo.Gender
@@ -80,7 +81,7 @@ class TokenAuthenticationFilter: OncePerRequestFilter() {
             val authentication = UsernamePasswordAuthenticationToken(userAccount, userAccount.password, userAccount.authorities)
             authentication.details = WebAuthenticationDetailsSource().buildDetails(request)
             SecurityContextHolder.getContext().authentication = authentication
-        } catch (e: UsernameNotFoundException) {
+        } catch (e: UserNotFoundException) {
             // TODO Exception Throw
         }
     }
