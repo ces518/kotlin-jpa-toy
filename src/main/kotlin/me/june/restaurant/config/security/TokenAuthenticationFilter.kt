@@ -7,6 +7,7 @@ import me.june.restaurant.entity.User
 import me.june.restaurant.service.UserNotFoundException
 import me.june.restaurant.service.UserService
 import me.june.restaurant.support.CookieUtils
+import me.june.restaurant.support.logger
 import me.june.restaurant.vo.Gender
 import me.june.restaurant.vo.Password
 import me.june.restaurant.vo.Roles
@@ -29,6 +30,10 @@ class TokenAuthenticationFilter: OncePerRequestFilter() {
 
     @Autowired
     private lateinit var userService: UserService
+
+    companion object {
+        private val log = logger(TokenAuthenticationFilter::class)
+    }
 
     override fun doFilterInternal(request: HttpServletRequest, response: HttpServletResponse, filterChain: FilterChain) {
         val dummyAuthId = request.getHeader("dummy-auth-id")
@@ -83,6 +88,7 @@ class TokenAuthenticationFilter: OncePerRequestFilter() {
             SecurityContextHolder.getContext().authentication = authentication
         } catch (e: UserNotFoundException) {
             // TODO Exception Throw
+            log.error("user name not found", e.message, e)
         }
     }
 }
