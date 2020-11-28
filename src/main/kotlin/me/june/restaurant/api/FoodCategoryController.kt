@@ -4,16 +4,14 @@ import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import me.june.restaurant.mapper.FoodCategoryDtoMapper
 import me.june.restaurant.repository.FoodCategoryRepository
-import me.june.restaurant.service.FoodCategoryService
 import org.springframework.web.bind.annotation.*
 
-@Api(tags = ["음식 카테고리 API"])
+@Api(tags = ["Food Category API"])
 @RestController
 @RequestMapping("categories/food")
 class FoodCategoryController(
         private val foodCategoryRepository: FoodCategoryRepository,
-        private val foodCategoryService: FoodCategoryService,
-        private val foodCategoryDtoMapper: FoodCategoryDtoMapper
+        private val foodCategoryDtoMapper: FoodCategoryDtoMapper,
 ) {
 
     @ApiOperation("카테고리 목록 조회")

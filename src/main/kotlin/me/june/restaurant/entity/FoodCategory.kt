@@ -3,10 +3,9 @@ package me.june.restaurant.entity
 import javax.persistence.*
 
 @Entity
-@Table(name = "food_categories")
-class FoodCategory: CategoryBaseEntity<FoodCategory>() {
-    override fun addChildren(child: FoodCategory) {
-        this.children.add(child)
-        child.parent = this
-    }
-}
+@DiscriminatorValue("food")
+class FoodCategory(
+        name: String,
+        parent: Category? = null,
+        children: MutableList<Category> = arrayListOf()
+): Category(name, parent, children)

@@ -1,7 +1,6 @@
 package me.june.restaurant.api
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.mysema.commons.lang.Assert.assertThat
 import me.june.restaurant.dto.LoginDto
 import me.june.restaurant.entity.User
 import me.june.restaurant.repository.UserRepository
@@ -42,7 +41,7 @@ internal class LoginControllerTest(
         val request = LoginDto.Request(username = "ncucudas", password = "asdf")
 
         // when
-        val result = this.mockMvc.perform(post("/login")
+        val result = mockMvc.perform(post("/login")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request))
                 )
