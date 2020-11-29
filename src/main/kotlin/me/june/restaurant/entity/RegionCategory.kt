@@ -1,13 +1,12 @@
 package me.june.restaurant.entity
 
+import javax.persistence.DiscriminatorValue
 import javax.persistence.Entity
-import javax.persistence.Table
 
 @Entity
-@Table(name = "region_category")
-class RegionCategory: CategoryBaseEntity<RegionCategory>() {
-    override fun addChildren(child: RegionCategory) {
-        this.children.add(child)
-        child.parent = this
-    }
-}
+@DiscriminatorValue("region")
+class RegionCategory(
+        name: String,
+        parent: Category? = null,
+        children: MutableList<Category> = arrayListOf()
+): Category(name, parent, children)
