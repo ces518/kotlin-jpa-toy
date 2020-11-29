@@ -5,7 +5,7 @@ import org.springframework.validation.BindingResult
 class ErrorResponse(
         errorCode: ErrorCode,
         val message: String = errorCode.message,
-        val status: Int = errorCode.status,
+        val status: Int = errorCode.status.value(),
         val errors: List<FieldError> = listOf(),
         val code: String = errorCode.code,
 ) {
