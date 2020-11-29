@@ -1,5 +1,6 @@
 package me.june.restaurant.errors
 
+import me.june.restaurant.service.DuplicateUsernameException
 import me.june.restaurant.service.UserNotFoundException
 import me.june.restaurant.support.logger
 import org.springframework.http.HttpStatus
@@ -20,6 +21,12 @@ class ExceptionHandlerController {
     fun userNotFoundException(e: RuntimeException): ResponseEntity<ErrorResponse> {
         log.error("handle userNotFoundException", e)
         return ResponseEntity(ErrorResponse.of(ErrorCode.USER_NOT_FOUND), HttpStatus.NOT_FOUND)
+    }
+
+    @ExceptionHandler(DuplicateUsernameException::class)
+    fun duplicateUsernameException(e: DuplicateUsernameException): ResponseEntity<ErrorResponse> {
+        log.error("handle Duplicate Username Exception", e)
+        return ResponseEntity(ErrorResponse.of(ErrorCode.DUPLICATE_USER_NAME), HttpStatus.CONFLICT)
     }
 
     @ExceptionHandler(Exception::class)
