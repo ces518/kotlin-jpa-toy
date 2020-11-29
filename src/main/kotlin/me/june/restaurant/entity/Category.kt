@@ -10,7 +10,7 @@ abstract class Category(
         @ManyToOne(fetch = FetchType.LAZY)
         @JoinColumn(name = "parent_id")
         var parent: Category? = null,
-        @OneToMany(mappedBy = "parent")
+        @OneToMany(mappedBy = "parent", cascade = [CascadeType.ALL], orphanRemoval = true)
         var children: MutableList<Category> = arrayListOf()
 ): BaseEntity() {
     fun addChildren(child: Category) {

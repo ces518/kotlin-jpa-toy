@@ -9,6 +9,6 @@ class FoodCategoryDto {
             val id: Long,
             val name: String,
             val parentId: Long?,
-            val children: List<Response>?
+            var children: List<Response>?
     )
 }
