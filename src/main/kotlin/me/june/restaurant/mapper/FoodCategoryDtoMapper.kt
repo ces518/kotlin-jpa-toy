@@ -15,6 +15,6 @@ interface FoodCategoryDtoMapper {
     fun entityToDto(entity: FoodCategory): FoodCategoryDto.Response
 
 
-    @Mapping(target = "parentId", source = "parent.id")
+    @Mapping(source = "parent.id", target = "parentId")
     fun categoryToResponse(category: Category): FoodCategoryDto.Response
 }

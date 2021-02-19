@@ -5,7 +5,6 @@ import me.june.restaurant.config.MethodSecurityConfig
 import me.june.restaurant.config.SecurityConfig
 import me.june.restaurant.dto.UserDto
 import me.june.restaurant.entity.User
-import me.june.restaurant.mapper.UserDtoMapper
 import me.june.restaurant.mapper.UserDtoMapperImpl
 import me.june.restaurant.repository.UserRepository
 import me.june.restaurant.vo.Gender
@@ -24,10 +23,6 @@ import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.test.context.TestConstructor
 import java.time.LocalDate
 import java.util.*
-import javax.persistence.Column
-import javax.persistence.Embedded
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
 
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @SpringBootTest(classes = [UserService::class, UserDtoMapperImpl::class])

@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 @Transactional(readOnly = true)
 class UserService (
-        private val userRepository: UserRepository,
-        private val userDtoMapper: UserDtoMapper,
-        private val passwordEncoder: PasswordEncoder
+    private val userRepository: UserRepository,
+    private val userDtoMapper: UserDtoMapper,
+    private val passwordEncoder: PasswordEncoder
 ): UserDetailsService {
 
     @Cacheable(value = ["findUser"], key = "#id")

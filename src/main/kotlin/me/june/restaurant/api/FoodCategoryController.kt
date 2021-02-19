@@ -42,7 +42,7 @@ class FoodCategoryController(
 
     @ApiOperation("카테고리 등록")
     @PostMapping
-    fun createCategory() {
+    fun createCategory(@RequestBody request: FoodCategoryDto.CreateRequest) {
 
     }
 
