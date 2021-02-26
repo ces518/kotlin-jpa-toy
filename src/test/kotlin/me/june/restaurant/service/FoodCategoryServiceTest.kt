@@ -146,4 +146,34 @@ internal class FoodCategoryServiceTest(
         verify(repository).findById(1L)
         verify(repository).findById(10L)
     }
+
+    @Test
+    @DisplayName("음식 카테고리 삭제 성공")
+    fun `음식 카테고리 삭제에 성공한다`() {
+        // given
+        val requestId = 1L
+
+        val mockCategory = FoodCategory(name = "한식")
+        given(repository.findById(requestId)).willReturn(Optional.of(mockCategory))
+
+        // when
+        service.deleteCategory(requestId)
+
+        // then
+        verify(repository).delete(mockCategory)
+    }
+
+    @Test
+    @DisplayName("음삭 카테고리 삭제 실패")
+    fun `존재하지 않는 음식 카테고리 삭제시 실패한다`() {
+        // given
+        val requestId = 1L
+
+        // when
+        val ex = assertThrows<CategoryNotFoundException> {
+            service.deleteCategory(requestId)
+        }
+
+        // then
+    }
 }

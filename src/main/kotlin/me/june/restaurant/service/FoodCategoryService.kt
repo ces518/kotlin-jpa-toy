@@ -16,6 +16,8 @@ class FoodCategoryService(
 
     fun findCategory(id: Long) = repository.findByIdOrNull(id) ?: throw CategoryNotFoundException()
 
+    fun findCategories(ids: List<Long>) = repository.findAllById(ids)
+
     @Transactional
     fun createCategory(dto: FoodCategoryDto.CreateRequest): Long {
         val parentCategory = dto.parentId?.let(this::findCategory)
@@ -29,6 +31,12 @@ class FoodCategoryService(
         val parentCategory = dto.parentId?.let(this::findCategory)
         val entity = dto.toEntity(parentCategory)
         findEntity.update(entity)
+    }
+
+    @Transactional
+    fun deleteCategory(id: Long) {
+        val findEntity = findCategory(id)
+        repository.delete(findEntity)
     }
 }
 
