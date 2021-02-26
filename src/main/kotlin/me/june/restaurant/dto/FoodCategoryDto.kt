@@ -16,4 +16,9 @@ class FoodCategoryDto {
         val name: String,
         val parentId: Long?
     )
+
+    data class UpdateRequest(
+        val name: String,
+        val parentId: Long?
+    )
 }
