@@ -40,14 +40,14 @@ class TokenAuthenticationFilter: OncePerRequestFilter() {
         when (dummyAuthId == "1") {
             true -> {
                 val dummyUser = UserAccount(
-                        User(password = Password("1234"),
-                                username = "admin",
-                                name = "admin",
-                                email = "admin@admin.com",
-                                birth = LocalDate.now(),
-                                gender = Gender.MAN).apply {
-                            role = Roles.ADMIN
-                        }
+                    User(password = Password("1234"),
+                            username = "admin",
+                            name = "admin",
+                            email = "admin@admin.com",
+                            birth = LocalDate.now(),
+                            gender = Gender.MAN).apply {
+                        role = Roles.ADMIN
+                    }
                 )
                 val authentication = UsernamePasswordAuthenticationToken(dummyUser, dummyUser.password, dummyUser.authorities)
                 authentication.details = WebAuthenticationDetailsSource().buildDetails(request)

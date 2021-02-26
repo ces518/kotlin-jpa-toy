@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/mypage")
 class MyPageController(
-        private val userService: UserService,
-        private val userDtoMapper: UserDtoMapper,
+    private val userService: UserService,
+    private val userDtoMapper: UserDtoMapper,
 ) {
 
     @GetMapping("info")

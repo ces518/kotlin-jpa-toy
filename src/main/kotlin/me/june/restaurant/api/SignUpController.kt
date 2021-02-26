@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("signup")
 class SignUpController(
-        private val userRepository: UserRepository,
-        private val signUpService: SignUpService,
-        private val userService: UserService,
-        private val userDtoMapper: UserDtoMapper,
+    private val userRepository: UserRepository,
+    private val signUpService: SignUpService,
+    private val userService: UserService,
+    private val userDtoMapper: UserDtoMapper,
 ) {
 
     @ApiOperation("ID 중복 검사")

@@ -19,15 +19,15 @@ class SwaggerConfig {
     fun swagger(): Docket {
         return Docket(DocumentationType.OAS_30)
                 .globalRequestParameters(
-                        listOf(
-                                RequestParameterBuilder()
-                                        .name("dummy-auth-id")
-                                        .description("Dummy Auth")
-                                        .`in`(ParameterType.HEADER)
-                                        .required(false)
-                                        .build()
+                    listOf(
+                        RequestParameterBuilder()
+                            .name("dummy-auth-id")
+                            .description("Dummy Auth")
+                            .`in`(ParameterType.HEADER)
+                            .required(false)
+                            .build()
 
-                        )
+                    )
                 )
                 .apiInfo(swaggerInfo())
                 .select()

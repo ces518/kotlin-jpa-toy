@@ -24,24 +24,24 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/users")
 class UserController(
-        private val userService: UserService,
-        private val userRepository: UserRepository,
-        private val userDtoMapper: UserDtoMapper
+    private val userService: UserService,
+    private val userRepository: UserRepository,
+    private val userDtoMapper: UserDtoMapper
 ) {
 
 
     @ApiOperation("전체 회원 조회")
     @ApiImplicitParams(
-            ApiImplicitParam(name = "page", value = "페이지 NO", required = false, defaultValue = "0"),
-            ApiImplicitParam(name = "size", value = "페이지 사이즈", required = false, defaultValue = "10"),
-            ApiImplicitParam(name = "sort", value = "정렬기준", required = false, defaultValue = "id"),
-            ApiImplicitParam(name = "direction", value = "정렬 순서", required = false, defaultValue = "DESC"),
+        ApiImplicitParam(name = "page", value = "페이지 NO", required = false, defaultValue = "0"),
+        ApiImplicitParam(name = "size", value = "페이지 사이즈", required = false, defaultValue = "10"),
+        ApiImplicitParam(name = "sort", value = "정렬기준", required = false, defaultValue = "id"),
+        ApiImplicitParam(name = "direction", value = "정렬 순서", required = false, defaultValue = "DESC"),
     )
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     fun getUsers(
-            @PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
-            assembler: PagedResourcesAssembler<UserDto.Response>,
+        @PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
+        assembler: PagedResourcesAssembler<UserDto.Response>,
     ): ResponseEntity<PagedModel<EntityModel<UserDto.Response>>> {
         val models = assembler.toModel(userRepository.findAll(pageable).map(userDtoMapper::entityToDto))
         models.add(Link.of("/swagger-ui/index.html#/USER-API/getUsersUsingGET").withRel("profile"))

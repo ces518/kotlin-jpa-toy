@@ -28,11 +28,11 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 class SecurityConfig: WebSecurityConfigurerAdapter() {
 
     private val publicUrls: RequestMatcher = OrRequestMatcher(
-            AntPathRequestMatcher("/"),
-            AntPathRequestMatcher("/csrf"),
-            AntPathRequestMatcher("/error"),
-            AntPathRequestMatcher("/swagger-resources/**"),
-            AntPathRequestMatcher("/swagger-ui/**")
+        AntPathRequestMatcher("/"),
+        AntPathRequestMatcher("/csrf"),
+        AntPathRequestMatcher("/error"),
+        AntPathRequestMatcher("/swagger-resources/**"),
+        AntPathRequestMatcher("/swagger-ui/**")
     )
 
     private val protectedUrls: RequestMatcher = NegatedRequestMatcher(publicUrls)
@@ -43,12 +43,12 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
 
     override fun configure(http: HttpSecurity) {
         http.csrf().disable()
-                .httpBasic().disable()
-                .cors().and()
-                .formLogin().disable()
-                .logout().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll().and()
+            .httpBasic().disable()
+            .cors().and()
+            .formLogin().disable()
+            .logout().disable()
+            .authorizeRequests()
+            .anyRequest().permitAll().and()
 
 
         http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
