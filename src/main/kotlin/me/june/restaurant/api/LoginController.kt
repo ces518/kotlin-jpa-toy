@@ -1,5 +1,6 @@
 package me.june.restaurant.api
 
+import io.swagger.annotations.Api
 import me.june.restaurant.config.token.JwtAuthTokenProvider
 import me.june.restaurant.dto.LoginDto
 import me.june.restaurant.service.LoginService
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
 import javax.servlet.http.HttpServletResponse
 
+@Api(tags = ["LOGIN-API"])
 @RestController
 class LoginController(
 	private val loginService: LoginService,

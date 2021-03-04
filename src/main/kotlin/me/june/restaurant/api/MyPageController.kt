@@ -1,5 +1,6 @@
 package me.june.restaurant.api
 
+import io.swagger.annotations.Api
 import me.june.restaurant.entity.User
 import me.june.restaurant.mapper.UserDtoMapper
 import me.june.restaurant.service.UserService
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 
+@Api(tags = ["MY-PAGE-API"])
 @RestController
 @RequestMapping("/mypage")
 class MyPageController(

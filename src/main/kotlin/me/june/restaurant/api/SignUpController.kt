@@ -15,7 +15,7 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Api(tags = ["SIGNUP_API"])
+@Api(tags = ["SIGNUP-API"])
 @RestController
 @RequestMapping("signup")
 class SignUpController(
