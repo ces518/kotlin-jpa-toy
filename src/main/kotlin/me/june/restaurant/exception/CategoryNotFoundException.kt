@@ -1,3 +1,3 @@
 package me.june.restaurant.exception
 
-class CategoryNotFoundException: RuntimeException()
+class CategoryNotFoundException : RuntimeException()

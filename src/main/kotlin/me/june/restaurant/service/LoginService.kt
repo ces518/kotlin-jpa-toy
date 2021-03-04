@@ -11,19 +11,19 @@ import java.lang.RuntimeException
 @Service
 @Transactional(readOnly = true)
 class LoginService(
-        private val userRepository: UserRepository,
-        private val passwordEncoder: PasswordEncoder
+	private val userRepository: UserRepository,
+	private val passwordEncoder: PasswordEncoder
 ) {
 
-    fun loginUser(loginRequest: LoginDto.Request): User {
-        val ( username, password ) = loginRequest
-        val findUser = userRepository.findByUsername(username)
-                ?: throw UserNotFoundException("$username 에 해당하는 유저는 존재하지 않습니다.")
-        if (!findUser.password.matchPassword(password, passwordEncoder)) {
-            throw PasswordNotMatchedException()
-        }
-        return findUser
-    }
+	fun loginUser(loginRequest: LoginDto.Request): User {
+		val (username, password) = loginRequest
+		val findUser = userRepository.findByUsername(username)
+			?: throw UserNotFoundException("$username 에 해당하는 유저는 존재하지 않습니다.")
+		if (!findUser.password.matchPassword(password, passwordEncoder)) {
+			throw PasswordNotMatchedException()
+		}
+		return findUser
+	}
 }
 
-class PasswordNotMatchedException: RuntimeException()
+class PasswordNotMatchedException : RuntimeException()

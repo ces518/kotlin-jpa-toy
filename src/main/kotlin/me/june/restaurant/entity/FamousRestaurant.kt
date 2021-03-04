@@ -8,16 +8,16 @@ import javax.persistence.Table
 @Entity
 @Table(name = "famous_restaurants")
 class FamousRestaurant(
-        val title: String,
+	val title: String,
 
-        val subTitle: String,
+	val subTitle: String,
 
-        @Lob
-        val description: String,
+	@Lob
+	val description: String,
 
-        @ManyToOne
-        val foodCategory: FoodCategory,
+	@ManyToOne
+	val foodCategory: FoodCategory,
 
-        @ManyToOne
-        val regionCategory: RegionCategory
-): BaseEntity()
+	@ManyToOne
+	val regionCategory: RegionCategory
+) : BaseEntity()

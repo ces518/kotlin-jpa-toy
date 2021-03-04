@@ -6,7 +6,7 @@ import javax.persistence.Entity
 @Entity
 @DiscriminatorValue("region")
 class RegionCategory(
-        name: String,
-        parent: Category? = null,
-        children: MutableList<Category> = arrayListOf()
-): Category(name, parent, children)
+	name: String,
+	parent: Category? = null,
+	children: MutableList<Category> = arrayListOf()
+) : Category(name, parent, children)

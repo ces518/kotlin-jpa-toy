@@ -21,34 +21,37 @@ import java.time.LocalDate
 @TestConstructor(autowireMode = TestConstructor.AutowireMode.ALL)
 @SpringBootTest
 @AutoConfigureMockMvc
-internal class LoginControllerTest(
-        private val userRepository: UserRepository,
-        private val mockMvc: MockMvc,
-        private val objectMapper: ObjectMapper,
+class LoginControllerTest(
+	private val userRepository: UserRepository,
+	private val mockMvc: MockMvc,
+	private val objectMapper: ObjectMapper,
 ) {
 
-    @Test
-    fun `로그인에 성공한다`() {
-        // given
-        val user = User(password = Password("asdf"),
-                username = "ncucudas",
-                name = "엔꾸꾸",
-                email = "ncucu.me@kakaocommerce.com",
-                birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN)
-        userRepository.save(user)
+	@Test
+	fun `로그인에 성공한다`() {
+		// given
+		val user = User(
+			password = Password("asdf"),
+			username = "ncucudas",
+			name = "엔꾸꾸",
+			email = "ncucu.me@kakaocommerce.com",
+			birth = LocalDate.of(1994, 4, 13),
+			gender = Gender.MAN
+		)
+		userRepository.save(user)
 
-        val request = LoginDto.Request(username = "ncucudas", password = "asdf")
+		val request = LoginDto.Request(username = "ncucudas", password = "asdf")
 
-        // when
-        val result = mockMvc.perform(post("/login")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request))
-                )
-                .andDo(print())
+		// when
+		val result = mockMvc.perform(
+			post("/login")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		)
+			.andDo(print())
 
-        // then
-        result.andExpect(status().isOk)
-                .andExpect(jsonPath("$.token").exists())
-    }
+		// then
+		result.andExpect(status().isOk)
+			.andExpect(jsonPath("$.token").exists())
+	}
 }

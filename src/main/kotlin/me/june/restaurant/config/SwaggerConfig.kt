@@ -15,32 +15,32 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2
 @EnableSwagger2
 class SwaggerConfig {
 
-    @Bean
-    fun swagger(): Docket {
-        return Docket(DocumentationType.OAS_30)
-                .globalRequestParameters(
-                    listOf(
-                        RequestParameterBuilder()
-                            .name("dummy-auth-id")
-                            .description("Dummy Auth")
-                            .`in`(ParameterType.HEADER)
-                            .required(false)
-                            .build()
+	@Bean
+	fun swagger(): Docket {
+		return Docket(DocumentationType.OAS_30)
+			.globalRequestParameters(
+				listOf(
+					RequestParameterBuilder()
+						.name("dummy-auth-id")
+						.description("Dummy Auth")
+						.`in`(ParameterType.HEADER)
+						.required(false)
+						.build()
 
-                    )
-                )
-                .apiInfo(swaggerInfo())
-                .select()
-                .apis(RequestHandlerSelectors.any())
-                .paths(PathSelectors.any())
-                .build()
-                .useDefaultResponseMessages(true)
-    }
+				)
+			)
+			.apiInfo(swaggerInfo())
+			.select()
+			.apis(RequestHandlerSelectors.any())
+			.paths(PathSelectors.any())
+			.build()
+			.useDefaultResponseMessages(true)
+	}
 
 
-    private fun swaggerInfo() = ApiInfoBuilder()
-            .title("API Docs")
-            .description("맛집 프로젝트")
-            .version("1.0.0")
-            .build()
+	private fun swaggerInfo() = ApiInfoBuilder()
+		.title("API Docs")
+		.description("맛집 프로젝트")
+		.version("1.0.0")
+		.build()
 }

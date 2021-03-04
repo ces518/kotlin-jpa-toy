@@ -28,97 +28,106 @@ import java.time.LocalDate
 @AutoConfigureMockMvc
 @Transactional
 class SignUpControllerTest(
-        private val userRepository: UserRepository,
-        private val mockMvc: MockMvc,
-        private val objectMapper: ObjectMapper,
+	private val userRepository: UserRepository,
+	private val mockMvc: MockMvc,
+	private val objectMapper: ObjectMapper,
 ) {
 
-    @Test
-    fun `이미 가입된 사용자명은 중복체크시 실패한다`() {
-        // given
-        val user = User(password = Password("asdf"),
-                username = "ncucu",
-                name = "엔꾸꾸",
-                email = "ncucu.me@kakaocommerce.com",
-                birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN)
-        userRepository.save(user)
+	@Test
+	fun `이미 가입된 사용자명은 중복체크시 실패한다`() {
+		// given
+		val user = User(
+			password = Password("asdf"),
+			username = "ncucu",
+			name = "엔꾸꾸",
+			email = "ncucu.me@kakaocommerce.com",
+			birth = LocalDate.of(1994, 4, 13),
+			gender = Gender.MAN
+		)
+		userRepository.save(user)
 
-        // when
-        val result = mockMvc.perform(put("/signup/check")
-                .param("username", user.username)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-        ).andDo(print())
+		// when
+		val result = mockMvc.perform(
+			put("/signup/check")
+				.param("username", user.username)
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+		).andDo(print())
 
-        // then
-        result.andExpect(status().isOk)
-        result.andExpect(jsonPath("$.joineable").exists())
-        result.andExpect(jsonPath("$.joineable").value(false))
-    }
+		// then
+		result.andExpect(status().isOk)
+		result.andExpect(jsonPath("$.joineable").exists())
+		result.andExpect(jsonPath("$.joineable").value(false))
+	}
 
-    @Test
-    fun `존재하는 아이디는 회원가입에 실패한다`() {
-        // given
-        val user = User(password = Password("asdf"),
-                username = "ncucu",
-                name = "엔꾸꾸",
-                email = "ncucu.me@kakaocommerce.com",
-                birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN)
-        userRepository.save(user)
+	@Test
+	fun `존재하는 아이디는 회원가입에 실패한다`() {
+		// given
+		val user = User(
+			password = Password("asdf"),
+			username = "ncucu",
+			name = "엔꾸꾸",
+			email = "ncucu.me@kakaocommerce.com",
+			birth = LocalDate.of(1994, 4, 13),
+			gender = Gender.MAN
+		)
+		userRepository.save(user)
 
-        val request = SignUpDto.Request(password = "asdf",
-                username = "ncucu",
-                name = "엔꾸꾸",
-                email = "ncucu.me@kakaocommerce.com",
-                birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN
-        )
+		val request = SignUpDto.Request(
+			password = "asdf",
+			username = "ncucu",
+			name = "엔꾸꾸",
+			email = "ncucu.me@kakaocommerce.com",
+			birth = LocalDate.of(1994, 4, 13),
+			gender = Gender.MAN
+		)
 
-        // when
-        val result = mockMvc.perform(MockMvcRequestBuilders.post("/signup")
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .accept(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(request))
-            ).andDo(print())
+		// when
+		val result = mockMvc.perform(
+			MockMvcRequestBuilders.post("/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		).andDo(print())
 
-        // then
-        result.andExpect(status().isConflict)
-    }
+		// then
+		result.andExpect(status().isConflict)
+	}
 
-    @Test
-    fun `회원가입에 성공한다`() {
-        // given
-        val request = SignUpDto.Request(password = "asdf",
-                username = "ncucu",
-                name = "엔꾸꾸",
-                email = "ncucu.me@kakaocommerce.com",
-                birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN
-        )
+	@Test
+	fun `회원가입에 성공한다`() {
+		// given
+		val request = SignUpDto.Request(
+			password = "asdf",
+			username = "ncucu",
+			name = "엔꾸꾸",
+			email = "ncucu.me@kakaocommerce.com",
+			birth = LocalDate.of(1994, 4, 13),
+			gender = Gender.MAN
+		)
 
-        // when
-        val result = mockMvc.perform(MockMvcRequestBuilders.post("/signup")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(request))
-        )
-                .andDo(print())
+		// when
+		val result = mockMvc.perform(
+			MockMvcRequestBuilders.post("/signup")
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON)
+				.content(objectMapper.writeValueAsString(request))
+		)
+			.andDo(print())
 
-        // then
-        val ( password, username, name, email, birth, gender ) = request
+		// then
+		val (password, username, name, email, birth, gender) = request
 
-        result.andExpect(status().isCreated)
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.username").exists())
-                .andExpect(jsonPath("$.username").value(username))
-                .andExpect(jsonPath("$.email").exists())
-                .andExpect(jsonPath("$.email").value(email))
-                .andExpect(jsonPath("$.birth").exists())
-                .andExpect(jsonPath("$.birth").value(birth.toString()))
-                .andExpect(jsonPath("$.gender").exists())
-                .andExpect(jsonPath("$.gender").value(gender.name))
-                .andExpect(jsonPath("$.createdAt").exists())
-    }
+		result.andExpect(status().isCreated)
+			.andExpect(jsonPath("$.id").exists())
+			.andExpect(jsonPath("$.username").exists())
+			.andExpect(jsonPath("$.username").value(username))
+			.andExpect(jsonPath("$.email").exists())
+			.andExpect(jsonPath("$.email").value(email))
+			.andExpect(jsonPath("$.birth").exists())
+			.andExpect(jsonPath("$.birth").value(birth.toString()))
+			.andExpect(jsonPath("$.gender").exists())
+			.andExpect(jsonPath("$.gender").value(gender.name))
+			.andExpect(jsonPath("$.createdAt").exists())
+	}
 }

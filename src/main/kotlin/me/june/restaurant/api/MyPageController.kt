@@ -12,11 +12,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/mypage")
 class MyPageController(
-    private val userService: UserService,
-    private val userDtoMapper: UserDtoMapper,
+	private val userService: UserService,
+	private val userDtoMapper: UserDtoMapper,
 ) {
 
-    @GetMapping("info")
-    @PreAuthorize("hasRole('USER')")
-    fun getMyInfo(@AuthUser user: User) = userService.findUser(user.id).let(userDtoMapper::entityToDto)
+	@GetMapping("info")
+	@PreAuthorize("hasRole('USER')")
+	fun getMyInfo(@AuthUser user: User) = userService.findUser(user.id).let(userDtoMapper::entityToDto)
 }

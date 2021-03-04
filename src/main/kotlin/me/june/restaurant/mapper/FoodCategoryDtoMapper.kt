@@ -9,12 +9,12 @@ import org.mapstruct.Mappings
 
 @Mapper(componentModel = "spring")
 interface FoodCategoryDtoMapper {
-    @Mappings(
-            Mapping(source = "parent.id", target = "parentId"),
-    )
-    fun entityToDto(entity: FoodCategory): FoodCategoryDto.Response
+	@Mappings(
+		Mapping(source = "parent.id", target = "parentId"),
+	)
+	fun entityToDto(entity: FoodCategory): FoodCategoryDto.Response
 
 
-    @Mapping(source = "parent.id", target = "parentId")
-    fun categoryToResponse(category: Category): FoodCategoryDto.Response
+	@Mapping(source = "parent.id", target = "parentId")
+	fun categoryToResponse(category: Category): FoodCategoryDto.Response
 }

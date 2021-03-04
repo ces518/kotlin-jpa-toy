@@ -20,35 +20,36 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers.status
 @SpringBootTest
 @AutoConfigureMockMvc
 class FoodCategoryControllerTest(
-        private val foodCategoryRepository: FoodCategoryRepository,
-        private val mockMvc: MockMvc,
-        private val objectMapper: ObjectMapper,
+	private val foodCategoryRepository: FoodCategoryRepository,
+	private val mockMvc: MockMvc,
+	private val objectMapper: ObjectMapper,
 ) {
 
-    @Test
-    fun `음식 카테고리 조회에 성공한다`() {
-        // given
-        val foodCategories = List(10) { index ->  FoodCategory(name = "카테고리명$index") }
-        foodCategories.first().addChildren(foodCategories.last())
-        foodCategoryRepository.saveAll(foodCategories)
+	@Test
+	fun `음식 카테고리 조회에 성공한다`() {
+		// given
+		val foodCategories = List(10) { index -> FoodCategory(name = "카테고리명$index") }
+		foodCategories.first().addChildren(foodCategories.last())
+		foodCategoryRepository.saveAll(foodCategories)
 
-        // when
-        val result = mockMvc.perform(get("/categories/food")
-                        .accept(MediaType.APPLICATION_JSON_UTF8)
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                )
-                .andDo(print())
+		// when
+		val result = mockMvc.perform(
+			get("/categories/food")
+				.accept(MediaType.APPLICATION_JSON_UTF8)
+				.contentType(MediaType.APPLICATION_JSON_UTF8)
+		)
+			.andDo(print())
 
-        // then
-        result.andExpect(status().isOk)
-                .andExpect(jsonPath("$.page").exists())
-                .andExpect(jsonPath("$.page.number").exists())
-                .andExpect(jsonPath("$.page.number").value("0"))
-                .andExpect(jsonPath("$._embedded.responseList").exists())
-                .andExpect(jsonPath("$._embedded.responseList[0].id").exists())
-                .andExpect(jsonPath("$._embedded.responseList[0].name").exists())
-                .andExpect(jsonPath("$._embedded.responseList[0].parentId").isEmpty)
-                .andExpect(jsonPath("$._embedded.responseList[0].children").exists())
-    }
+		// then
+		result.andExpect(status().isOk)
+			.andExpect(jsonPath("$.page").exists())
+			.andExpect(jsonPath("$.page.number").exists())
+			.andExpect(jsonPath("$.page.number").value("0"))
+			.andExpect(jsonPath("$._embedded.responseList").exists())
+			.andExpect(jsonPath("$._embedded.responseList[0].id").exists())
+			.andExpect(jsonPath("$._embedded.responseList[0].name").exists())
+			.andExpect(jsonPath("$._embedded.responseList[0].parentId").isEmpty)
+			.andExpect(jsonPath("$._embedded.responseList[0].children").exists())
+	}
 
 }

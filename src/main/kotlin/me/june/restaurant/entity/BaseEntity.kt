@@ -9,30 +9,30 @@ import javax.persistence.*
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener::class)
-class BaseEntity: Serializable {
+class BaseEntity : Serializable {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Long = 0L
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	val id: Long = 0L
 
-    @CreatedDate
-    var createdAt: LocalDateTime? = null
+	@CreatedDate
+	var createdAt: LocalDateTime? = null
 
-    @LastModifiedDate
-    var updatedAt: LocalDateTime? = null
+	@LastModifiedDate
+	var updatedAt: LocalDateTime? = null
 
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+	override fun equals(other: Any?): Boolean {
+		if (this === other) return true
+		if (javaClass != other?.javaClass) return false
 
-        other as BaseEntity
+		other as BaseEntity
 
-        if (id != other.id) return false
+		if (id != other.id) return false
 
-        return true
-    }
+		return true
+	}
 
-    override fun hashCode(): Int {
-        return id.hashCode()
-    }
+	override fun hashCode(): Int {
+		return id.hashCode()
+	}
 }
