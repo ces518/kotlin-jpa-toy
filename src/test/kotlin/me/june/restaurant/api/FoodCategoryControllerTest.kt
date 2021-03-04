@@ -26,7 +26,7 @@ class FoodCategoryControllerTest(
 ) {
 
 	@Test
-	fun `음식 카테고리 조회에 성공한다`() {
+	fun `음식 카테고리 목록 조회에 성공한다`() {
 		// given
 		val foodCategories = List(10) { index -> FoodCategory(name = "카테고리명$index") }
 		foodCategories.first().addChildren(foodCategories.last())
@@ -35,10 +35,9 @@ class FoodCategoryControllerTest(
 		// when
 		val result = mockMvc.perform(
 			get("/categories/food")
-				.accept(MediaType.APPLICATION_JSON_UTF8)
-				.contentType(MediaType.APPLICATION_JSON_UTF8)
-		)
-			.andDo(print())
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		result.andExpect(status().isOk)
@@ -50,6 +49,26 @@ class FoodCategoryControllerTest(
 			.andExpect(jsonPath("$._embedded.responseList[0].name").exists())
 			.andExpect(jsonPath("$._embedded.responseList[0].parentId").isEmpty)
 			.andExpect(jsonPath("$._embedded.responseList[0].children").exists())
+	}
+
+	@Test
+	fun `음식 카테고리 조회에 성공한다`() {
+		// given
+		val savedCategory = foodCategoryRepository.save(FoodCategory(name = "한식"))
+
+		// when
+		val result = mockMvc.perform(
+			get("/categories/food/${savedCategory.id}")
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
+
+		// then
+		result.andExpect(status().isOk)
+			.andExpect(jsonPath("$.id").value(savedCategory.id))
+			.andExpect(jsonPath("$.name").value(savedCategory.name))
+			.andExpect(jsonPath("$.parentId").isEmpty)
+			.andExpect(jsonPath("$._links.profile").exists())
 	}
 
 }
