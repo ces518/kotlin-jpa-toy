@@ -31,6 +31,10 @@ class UserControllerTest(
 	private val objectMapper: ObjectMapper,
 ) {
 
+	companion object {
+		const val BASE_URL = "/users"
+	}
+
 	@Test
 	@WithMockAdmin
 	@DisplayName("유저 목록 조회")
@@ -48,13 +52,12 @@ class UserControllerTest(
 
 		// when
 		val result = mockMvc.perform(
-			get("/users")
+			get(BASE_URL)
 				.param("page", "0")
 				.param("size", "10")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-		)
-			.andDo(print())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		result.andExpect(status().isOk)
@@ -86,11 +89,10 @@ class UserControllerTest(
 
 		// when
 		val result = this.mockMvc.perform(
-			get("/users/${savedUser.id}")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-		)
-			.andDo(print())
+			get("${BASE_URL}/${savedUser.id}")
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		result.andExpect(status().isOk)
@@ -119,12 +121,11 @@ class UserControllerTest(
 
 		// when
 		val result = this.mockMvc.perform(
-			post("/users")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+			post(BASE_URL)
 				.content(objectMapper.writeValueAsString(request))
-		)
-			.andDo(print())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		val (password, username, name, email, birth, gender) = request
@@ -167,12 +168,11 @@ class UserControllerTest(
 
 		// when
 		val result = this.mockMvc.perform(
-			put("/users/${savedUser.id}")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+			put("${BASE_URL}/${savedUser.id}")
 				.content(objectMapper.writeValueAsString(request))
-		)
-			.andDo(print())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		val (password, name, email, birth, gender) = request
@@ -208,11 +208,10 @@ class UserControllerTest(
 
 		// when
 		val result = this.mockMvc.perform(
-			delete("/users/${savedUser.id}")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
-		)
-			.andDo(print())
+			delete("${BASE_URL}/${savedUser.id}")
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		result.andExpect(status().isOk)

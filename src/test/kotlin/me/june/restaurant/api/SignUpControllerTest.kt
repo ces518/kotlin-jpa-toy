@@ -16,6 +16,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.context.TestConstructor
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put
 import org.springframework.test.web.servlet.result.MockMvcResultHandlers.print
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath
@@ -33,6 +34,10 @@ class SignUpControllerTest(
 	private val objectMapper: ObjectMapper,
 ) {
 
+	companion object {
+		const val BASE_URL = "/signup"
+	}
+
 	@Test
 	fun `이미 가입된 사용자명은 중복체크시 실패한다`() {
 		// given
@@ -48,10 +53,10 @@ class SignUpControllerTest(
 
 		// when
 		val result = mockMvc.perform(
-			put("/signup/check")
+			put("${BASE_URL}/check")
 				.param("username", user.username)
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
 		).andDo(print())
 
 		// then
@@ -84,10 +89,10 @@ class SignUpControllerTest(
 
 		// when
 		val result = mockMvc.perform(
-			MockMvcRequestBuilders.post("/signup")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+			post(BASE_URL)
 				.content(objectMapper.writeValueAsString(request))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
 		).andDo(print())
 
 		// then
@@ -108,10 +113,10 @@ class SignUpControllerTest(
 
 		// when
 		val result = mockMvc.perform(
-			MockMvcRequestBuilders.post("/signup")
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON)
+			post(BASE_URL)
 				.content(objectMapper.writeValueAsString(request))
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+				.accept(MediaType.APPLICATION_JSON_VALUE)
 		)
 			.andDo(print())
 

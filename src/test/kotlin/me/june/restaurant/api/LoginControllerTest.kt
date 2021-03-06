@@ -45,10 +45,9 @@ class LoginControllerTest(
 		// when
 		val result = mockMvc.perform(
 			post("/login")
-				.contentType(MediaType.APPLICATION_JSON)
 				.content(objectMapper.writeValueAsString(request))
-		)
-			.andDo(print())
+				.contentType(MediaType.APPLICATION_JSON_VALUE)
+		).andDo(print())
 
 		// then
 		result.andExpect(status().isOk)
