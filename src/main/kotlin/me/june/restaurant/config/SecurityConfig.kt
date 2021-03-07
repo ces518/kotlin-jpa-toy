@@ -25,54 +25,54 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource
 
 @Configuration
 @EnableWebSecurity
-class SecurityConfig: WebSecurityConfigurerAdapter() {
+class SecurityConfig : WebSecurityConfigurerAdapter() {
 
-    private val publicUrls: RequestMatcher = OrRequestMatcher(
-            AntPathRequestMatcher("/"),
-            AntPathRequestMatcher("/csrf"),
-            AntPathRequestMatcher("/error"),
-            AntPathRequestMatcher("/swagger-resources/**"),
-            AntPathRequestMatcher("/swagger-ui/**")
-    )
+	private val publicUrls: RequestMatcher = OrRequestMatcher(
+		AntPathRequestMatcher("/"),
+		AntPathRequestMatcher("/csrf"),
+		AntPathRequestMatcher("/error"),
+		AntPathRequestMatcher("/swagger-resources/**"),
+		AntPathRequestMatcher("/swagger-ui/**")
+	)
 
-    private val protectedUrls: RequestMatcher = NegatedRequestMatcher(publicUrls)
+	private val protectedUrls: RequestMatcher = NegatedRequestMatcher(publicUrls)
 
-    override fun configure(web: WebSecurity) {
-        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-    }
+	override fun configure(web: WebSecurity) {
+		web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+	}
 
-    override fun configure(http: HttpSecurity) {
-        http.csrf().disable()
-                .httpBasic().disable()
-                .cors().and()
-                .formLogin().disable()
-                .logout().disable()
-                .authorizeRequests()
-                .anyRequest().permitAll().and()
+	override fun configure(http: HttpSecurity) {
+		http.csrf().disable()
+			.httpBasic().disable()
+			.cors().and()
+			.formLogin().disable()
+			.logout().disable()
+			.authorizeRequests()
+			.anyRequest().permitAll().and()
 
 
-        http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
-    }
+		http.addFilterBefore(tokenAuthenticationFilter(), UsernamePasswordAuthenticationFilter::class.java)
+	}
 
-    @Bean
-    fun passwordEncoder() = PasswordEncoderFactories.createDelegatingPasswordEncoder()
+	@Bean
+	fun passwordEncoder() = PasswordEncoderFactories.createDelegatingPasswordEncoder()
 
-    @Bean
-    fun tokenAuthenticationFilter() = TokenAuthenticationFilter()
+	@Bean
+	fun tokenAuthenticationFilter() = TokenAuthenticationFilter()
 
-    @Bean
-    fun jwtAuthTokenProvider() = JwtAuthTokenProvider()
+	@Bean
+	fun jwtAuthTokenProvider() = JwtAuthTokenProvider()
 
-    @Bean
-    fun corsConfigurationSource(): CorsConfigurationSource {
-        val configuration = CorsConfiguration()
-        configuration.addAllowedOrigin("*")
-        configuration.addAllowedMethod("*")
-        configuration.addAllowedHeader("*")
-        configuration.allowCredentials = true
-        configuration.maxAge = 3600L
-        val source = UrlBasedCorsConfigurationSource()
-        source.registerCorsConfiguration("/**", configuration)
-        return source
-    }
+	@Bean
+	fun corsConfigurationSource(): CorsConfigurationSource {
+		val configuration = CorsConfiguration()
+		configuration.addAllowedOrigin("*")
+		configuration.addAllowedMethod("*")
+		configuration.addAllowedHeader("*")
+		configuration.allowCredentials = true
+		configuration.maxAge = 3600L
+		val source = UrlBasedCorsConfigurationSource()
+		source.registerCorsConfiguration("/**", configuration)
+		return source
+	}
 }

@@ -10,12 +10,12 @@ import org.mapstruct.Named
 
 @Mapper(componentModel = "spring")
 interface SignUpDtoMapper {
-    @Mappings(
-            Mapping(source = "dto.password", target = "password", qualifiedByName = ["password"])
-    )
-    fun dtoToEntity(dto: SignUpDto.Request): User
+	@Mappings(
+		Mapping(source = "dto.password", target = "password", qualifiedByName = ["password"])
+	)
+	fun dtoToEntity(dto: SignUpDto.Request): User
 
-    @Named("password")
-    @Mapping(source = "value", target = "password")
-    fun toPassword(value: String): Password
+	@Named("password")
+	@Mapping(source = "value", target = "password")
+	fun toPassword(value: String): Password
 }

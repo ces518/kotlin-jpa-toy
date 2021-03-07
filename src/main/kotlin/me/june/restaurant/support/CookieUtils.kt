@@ -6,13 +6,13 @@ import kotlin.math.max
 
 object CookieUtils {
 
-    fun createCookie(key: String, value: String, maxAge: Int) =
-            Cookie(key, value).apply {
-                this.isHttpOnly = true
-                this.maxAge = maxAge
-                this.path = "/"
-            }
+	fun createCookie(key: String, value: String, maxAge: Int) =
+		Cookie(key, value).apply {
+			this.isHttpOnly = true
+			this.maxAge = maxAge
+			this.path = "/"
+		}
 
-    fun getCookie(request: HttpServletRequest, key: String) = request.cookies?.find { it.name == key }
+	fun getCookie(request: HttpServletRequest, key: String) = request.cookies?.find { it.name == key }
 }
 

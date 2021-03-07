@@ -8,8 +8,8 @@ import org.springframework.data.redis.connection.RedisConnectionFactory
 @Configuration
 @EnableCaching(proxyTargetClass = true)
 class RedisCacheConfig(
-        private val redisConnectionFactory: RedisConnectionFactory,
-        private val objectMapper: ObjectMapper
+	private val redisConnectionFactory: RedisConnectionFactory,
+	private val objectMapper: ObjectMapper
 ) {
 
 //    @Bean

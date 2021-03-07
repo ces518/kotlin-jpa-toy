@@ -9,22 +9,22 @@ import javax.persistence.*
 @Entity
 @Table(name = "users")
 class User(
-        @Embedded
-        var password: Password,
+	@Embedded
+	var password: Password,
 
-        @Column(unique = true)
-        var username: String,
+	@Column(unique = true)
+	var username: String,
 
-        var name: String,
+	var name: String,
 
-        var email: String,
+	var email: String,
 
-        var birth: LocalDate,
+	var birth: LocalDate,
 
-        @Enumerated(EnumType.STRING)
-        var gender: Gender
-): BaseEntity() {
+	@Enumerated(EnumType.STRING)
+	var gender: Gender
+) : BaseEntity() {
 
-        @Enumerated(EnumType.STRING)
-        var role: Roles = Roles.USER
+	@Enumerated(EnumType.STRING)
+	var role: Roles = Roles.USER
 }

@@ -12,20 +12,22 @@ import org.springframework.stereotype.Component
 import java.time.LocalDate
 
 class AppInit(
-        private val userRepository: UserRepository,
-        private val passwordEncoder: PasswordEncoder
-): ApplicationRunner {
+	private val userRepository: UserRepository,
+	private val passwordEncoder: PasswordEncoder
+) : ApplicationRunner {
 
-    override fun run(args: ApplicationArguments?) {
+	override fun run(args: ApplicationArguments?) {
 
-        val admin = User(password = Password(passwordEncoder.encode("asdf")),
-                username = "ncucu",
-                name = "엔꾸꾸",
-                email = "ncucu.me@kakaocommerce.com",
-                birth = LocalDate.of(1994, 4, 13),
-                gender = Gender.MAN)
-        admin.role = Roles.ADMIN
+		val admin = User(
+			password = Password(passwordEncoder.encode("asdf")),
+			username = "ncucu",
+			name = "엔꾸꾸",
+			email = "ncucu.me@kakaocommerce.com",
+			birth = LocalDate.of(1994, 4, 13),
+			gender = Gender.MAN
+		)
+		admin.role = Roles.ADMIN
 
-        userRepository.save(admin)
-    }
+		userRepository.save(admin)
+	}
 }

@@ -15,31 +15,31 @@ import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 
-@Api(tags = ["SIGNUP_API"])
+@Api(tags = ["SIGNUP-API"])
 @RestController
 @RequestMapping("signup")
 class SignUpController(
-        private val userRepository: UserRepository,
-        private val signUpService: SignUpService,
-        private val userService: UserService,
-        private val userDtoMapper: UserDtoMapper,
+	private val userRepository: UserRepository,
+	private val signUpService: SignUpService,
+	private val userService: UserService,
+	private val userDtoMapper: UserDtoMapper,
 ) {
 
-    @ApiOperation("ID 중복 검사")
-    @PutMapping("check")
-    fun checkId(@RequestParam username: String): ResponseEntity<EntityModel<SignUpDto.CheckResponse>> {
-        val user = userRepository.findByUsername(username)
-        val model = EntityModel.of(SignUpDto.CheckResponse(user == null))
-        model.add(Link.of("/swagger-ui/index.html#/SIGNUP_API/checkIdUsingPut").withRel("profile"))
-        return ResponseEntity.ok(model)
-    }
+	@ApiOperation("ID 중복 검사")
+	@PutMapping("check")
+	fun checkId(@RequestParam username: String): ResponseEntity<EntityModel<SignUpDto.CheckResponse>> {
+		val user = userRepository.findByUsername(username)
+		val model = EntityModel.of(SignUpDto.CheckResponse(user == null))
+		model.add(Link.of("/swagger-ui/index.html#/SIGNUP_API/checkIdUsingPut").withRel("profile"))
+		return ResponseEntity.ok(model)
+	}
 
-    @ApiOperation("회원 가입")
-    @PostMapping
-    fun signUp(@RequestBody dto: SignUpDto.Request) = signUpService.signUp(dto).let {
-        val model = EntityModel.of(userService.findUser(it).let(userDtoMapper::entityToDto))
-        model.add(linkTo(SignUpController::class.java).slash("info").withRel("query-info"))
-        model.add(Link.of("/swagger-ui/index.html#/SIGNUP_API/signUpUsingPost").withRel("profile"))
-        ResponseEntity.status(HttpStatus.CREATED).body(model)
-    }
+	@ApiOperation("회원 가입")
+	@PostMapping
+	fun signUp(@RequestBody dto: SignUpDto.Request) = signUpService.signUp(dto).let {
+		val model = EntityModel.of(userService.findUser(it).let(userDtoMapper::entityToDto))
+		model.add(linkTo(SignUpController::class.java).slash("info").withRel("query-info"))
+		model.add(Link.of("/swagger-ui/index.html#/SIGNUP_API/signUpUsingPost").withRel("profile"))
+		ResponseEntity.status(HttpStatus.CREATED).body(model)
+	}
 }

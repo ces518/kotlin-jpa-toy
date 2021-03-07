@@ -14,31 +14,31 @@ import javax.annotation.PreDestroy
 @Configuration
 @EnableRedisRepositories
 class EmbeddedRedisConfig(
-        @Value("\${spring.redis.port}")
-        val redisPort: Int,
-        @Value("\${spring.redis.host}")
-        val redisHost: String
+	@Value("\${spring.redis.port}")
+	val redisPort: Int,
+	@Value("\${spring.redis.host}")
+	val redisHost: String
 ) {
 
-    lateinit var redisServer: RedisServer
+	lateinit var redisServer: RedisServer
 
-    @PostConstruct
-    fun startRedis() {
-        redisServer = RedisServer(redisPort)
-        redisServer.start()
-    }
+	@PostConstruct
+	fun startRedis() {
+		redisServer = RedisServer(redisPort)
+		redisServer.start()
+	}
 
-    @PreDestroy
-    fun stopRedis() {
-        redisServer.stop()
-    }
+	@PreDestroy
+	fun stopRedis() {
+		redisServer.stop()
+	}
 
-    @Bean
-    fun redisConnectionFactory() : RedisConnectionFactory =
-            LettuceConnectionFactory(redisHost, redisPort)
+	@Bean
+	fun redisConnectionFactory(): RedisConnectionFactory =
+		LettuceConnectionFactory(redisHost, redisPort)
 
-    @Bean
-    fun redisTemplate() = RedisTemplate<Any, Any>().apply {
-        setConnectionFactory(redisConnectionFactory())
-    }
+	@Bean
+	fun redisTemplate() = RedisTemplate<Any, Any>().apply {
+		setConnectionFactory(redisConnectionFactory())
+	}
 }
