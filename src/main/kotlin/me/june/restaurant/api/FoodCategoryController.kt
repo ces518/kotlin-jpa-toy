@@ -17,6 +17,7 @@ import org.springframework.hateoas.Link
 import org.springframework.hateoas.PagedModel
 import org.springframework.web.bind.annotation.*
 import me.june.restaurant.dto.Result
+import org.springframework.http.HttpStatus
 
 @Api(tags = ["FOOD-CATEGORY-API"])
 @RestController
@@ -59,6 +60,7 @@ class FoodCategoryController(
 
 	@ApiOperation("카테고리 등록")
 	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
 	fun createCategory(@RequestBody request: FoodCategoryDto.CreateRequest): EntityModel<FoodCategoryDto.Response> {
 		val savedId = foodCategoryService.createCategory(request)
 		val response = foodCategoryService.findCategory(savedId)
@@ -92,7 +94,7 @@ class FoodCategoryController(
 	@DeleteMapping("{id}")
 	fun deleteCategory(@PathVariable id: Long): EntityModel<Result<Boolean>> {
 		foodCategoryService.deleteCategory(id)
-		val model = EntityModel.of(Result(true))
+		val model = EntityModel.of(Result.SUCCESS)
 		model.add(Link.of("/swagger-ui/index.html#/FOOD-CATEGORY-API/deleteCategoryUsingDELETE").withRel("profile"))
 		return model
 	}
