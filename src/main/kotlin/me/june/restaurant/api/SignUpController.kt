@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*
 
 @Api(tags = ["SIGNUP-API"])
 @RestController
-@RequestMapping("signup")
+@RequestMapping("/signup")
 class SignUpController(
 	private val userRepository: UserRepository,
 	private val signUpService: SignUpService,

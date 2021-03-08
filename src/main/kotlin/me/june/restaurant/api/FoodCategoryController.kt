@@ -21,7 +21,7 @@ import org.springframework.http.HttpStatus
 
 @Api(tags = ["FOOD-CATEGORY-API"])
 @RestController
-@RequestMapping("categories/food")
+@RequestMapping("/categories/food")
 class FoodCategoryController(
 	private val foodCategoryRepository: FoodCategoryRepository,
 	private val foodCategoryService: FoodCategoryService,
