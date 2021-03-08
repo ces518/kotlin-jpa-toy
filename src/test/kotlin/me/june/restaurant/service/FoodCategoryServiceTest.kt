@@ -175,5 +175,6 @@ class FoodCategoryServiceTest(
 		}
 
 		// then
+		verify(repository).findById(1L)
 	}
 }

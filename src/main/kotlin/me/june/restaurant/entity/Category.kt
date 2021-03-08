@@ -23,4 +23,9 @@ abstract class Category(
 		child.parent = this
 		this.children.add(child)
 	}
+
+	fun update(entity: Category) {
+		this.name = entity.name
+		this.parent = entity.parent
+	}
 }

@@ -5,9 +5,11 @@ import io.swagger.annotations.ApiImplicitParam
 import io.swagger.annotations.ApiImplicitParams
 import io.swagger.annotations.ApiOperation
 import me.june.restaurant.dto.FoodCategoryDto
-import me.june.restaurant.mapper.FoodCategoryDtoMapper
-import me.june.restaurant.repository.FoodCategoryRepository
-import me.june.restaurant.service.FoodCategoryService
+import me.june.restaurant.dto.RegionCategoryDto
+import me.june.restaurant.dto.Result
+import me.june.restaurant.mapper.RegionCategoryDtoMapper
+import me.june.restaurant.repository.RegionCategoryRepository
+import me.june.restaurant.service.RegionCategoryService
 import org.springframework.data.domain.Pageable
 import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
@@ -15,17 +17,16 @@ import org.springframework.data.web.PagedResourcesAssembler
 import org.springframework.hateoas.EntityModel
 import org.springframework.hateoas.Link
 import org.springframework.hateoas.PagedModel
-import org.springframework.web.bind.annotation.*
-import me.june.restaurant.dto.Result
 import org.springframework.http.HttpStatus
+import org.springframework.web.bind.annotation.*
 
-@Api(tags = ["FOOD-CATEGORY-API"])
+@Api(tags = ["REGION-CATEGORY-API"])
 @RestController
-@RequestMapping("/categories/food")
-class FoodCategoryController(
-	private val foodCategoryRepository: FoodCategoryRepository,
-	private val foodCategoryService: FoodCategoryService,
-	private val foodCategoryDtoMapper: FoodCategoryDtoMapper,
+@RequestMapping("/categories/region")
+class RegionCategoryController(
+	private val service: RegionCategoryService,
+	private val repository: RegionCategoryRepository,
+	private val mapper: RegionCategoryDtoMapper,
 ) {
 
 	@ApiOperation("카테고리 목록 조회")
@@ -38,10 +39,10 @@ class FoodCategoryController(
 	@GetMapping
 	fun getCategories(
 		@PageableDefault(page = 0, size = 10, sort = ["id"], direction = Sort.Direction.DESC) pageable: Pageable,
-		assembler: PagedResourcesAssembler<FoodCategoryDto.Response>
-	): PagedModel<EntityModel<FoodCategoryDto.Response>> {
-		val models = assembler.toModel(foodCategoryRepository.findAll(pageable).map(foodCategoryDtoMapper::entityToDto))
-		models.add(Link.of("/swagger-ui/index.html#/FOOD-CATEGORY-API/getCategoriesUsingGET").withRel("profile"))
+		assembler: PagedResourcesAssembler<RegionCategoryDto.Response>
+	): PagedModel<EntityModel<RegionCategoryDto.Response>> {
+		val models = assembler.toModel(repository.findAll(pageable).map(mapper::entityToDto))
+		models.add(Link.of("/swagger-ui/index.html#/REGION-CATEGORY-API/getCategoriesUsingGET").withRel("profile"))
 		return models
 	}
 
@@ -50,23 +51,23 @@ class FoodCategoryController(
 		ApiImplicitParam(name = "id", value = "카테고리 아이디", required = false, defaultValue = "1")
 	)
 	@GetMapping("{id}")
-	fun getCategory(@PathVariable id: Long): EntityModel<FoodCategoryDto.Response> {
-		val response = foodCategoryService.findCategory(id)
-			.let(foodCategoryDtoMapper::entityToDto)
+	fun getCategory(@PathVariable id: Long): EntityModel<RegionCategoryDto.Response> {
+		val response = service.findCategory(id)
+			.let(mapper::entityToDto)
 		val model = EntityModel.of(response)
-		model.add(Link.of("/swagger-ui/index.html#/FOOD-CATEGORY-API/getCategoryUsingGET").withRel("profile"))
+		model.add(Link.of("/swagger-ui/index.html#/REGION-CATEGORY-API/getCategoryUsingGET").withRel("profile"))
 		return model
 	}
 
 	@ApiOperation("카테고리 등록")
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	fun createCategory(@RequestBody request: FoodCategoryDto.CreateRequest): EntityModel<FoodCategoryDto.Response> {
-		val savedId = foodCategoryService.createCategory(request)
-		val response = foodCategoryService.findCategory(savedId)
-			.let(foodCategoryDtoMapper::entityToDto)
+	fun createCategory(@RequestBody request: RegionCategoryDto.CreateRequest): EntityModel<RegionCategoryDto.Response> {
+		val savedId = service.createCategory(request)
+		val response = service.findCategory(savedId)
+			.let(mapper::entityToDto)
 		val model = EntityModel.of(response)
-		model.add(Link.of("/swagger-ui/index.html#/FOOD-CATEGORY-API/createCategoryUsingPOST").withRel("profile"))
+		model.add(Link.of("/swagger-ui/index.html#/REGION-CATEGORY-API/createCategoryUsingPOST").withRel("profile"))
 		return model
 	}
 
@@ -77,13 +78,13 @@ class FoodCategoryController(
 	@PutMapping("{id}")
 	fun updateCategory(
 		@PathVariable id: Long,
-		@RequestBody request: FoodCategoryDto.UpdateRequest
-	): EntityModel<FoodCategoryDto.Response> {
-		foodCategoryService.updateCategory(id, request)
-		val response = foodCategoryService.findCategory(id)
-			.let(foodCategoryDtoMapper::entityToDto)
+		@RequestBody request: RegionCategoryDto.UpdateRequest
+	): EntityModel<RegionCategoryDto.Response> {
+		service.updateCategory(id, request)
+		val response = service.findCategory(id)
+			.let(mapper::entityToDto)
 		val model = EntityModel.of(response)
-		model.add(Link.of("/swagger-ui/index.html#/FOOD-CATEGORY-API/updateCategoryUsingPUT").withRel("profile"))
+		model.add(Link.of("/swagger-ui/index.html#/REGION-CATEGORY-API/updateCategoryUsingPUT").withRel("profile"))
 		return model
 	}
 
@@ -93,9 +94,9 @@ class FoodCategoryController(
 	)
 	@DeleteMapping("{id}")
 	fun deleteCategory(@PathVariable id: Long): EntityModel<Result<Boolean>> {
-		foodCategoryService.deleteCategory(id)
+		service.deleteCategory(id)
 		val model = EntityModel.of(Result.SUCCESS)
-		model.add(Link.of("/swagger-ui/index.html#/FOOD-CATEGORY-API/deleteCategoryUsingDELETE").withRel("profile"))
+		model.add(Link.of("/swagger-ui/index.html#/REGION-CATEGORY-API/deleteCategoryUsingDELETE").withRel("profile"))
 		return model
 	}
 }
