@@ -66,6 +66,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt:0.5.1")
 
     testImplementation ("org.mockito:mockito-inline")
+    testImplementation ("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
 }
 
 tasks.withType<Test> {

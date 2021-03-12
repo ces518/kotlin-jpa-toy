@@ -2,22 +2,19 @@ package me.june.restaurant.entity
 
 import javax.persistence.Entity
 import javax.persistence.Lob
-import javax.persistence.ManyToOne
 import javax.persistence.Table
 
 @Entity
 @Table(name = "famous_restaurants")
 class FamousRestaurant(
-	val title: String,
+	var title: String,
 
-	val subTitle: String,
+	var subTitle: String,
 
 	@Lob
-	val description: String,
+	var description: String,
 
-	@ManyToOne
-	val foodCategory: FoodCategory,
+	var foodCategoryId: Long,
 
-	@ManyToOne
-	val regionCategory: RegionCategory
+	var regionCategoryId: Long,
 ) : BaseEntity()
