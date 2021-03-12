@@ -166,4 +166,16 @@ internal class FamousRestaurantServiceTest(
 		verify(repository).findById(anyLong())
 		verify(repository).delete(MOCK_RESTAURANT)
 	}
+
+	@Test
+	fun `존재하지 않는 맛집이면 맛집 삭제에 실패한다`() {
+		// given
+		given(repository.findById(anyLong())).willReturn(Optional.empty())
+
+		// when
+		assertThrows<FamousRestaurantNotFoundException> { service.delete(1L) }
+
+		// then
+		verify(repository).findById(anyLong())
+	}
 }
