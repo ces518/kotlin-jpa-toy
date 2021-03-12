@@ -1,6 +1,7 @@
 package me.june.restaurant.errors
 
 import org.springframework.validation.BindingResult
+import org.springframework.validation.Errors
 
 class ErrorResponse(
 	errorCode: ErrorCode,
@@ -10,8 +11,8 @@ class ErrorResponse(
 	val code: String = errorCode.code,
 ) {
 	companion object {
-		fun of(code: ErrorCode, bindingResult: BindingResult) =
-			ErrorResponse(errorCode = code, errors = FieldError.of(bindingResult))
+		fun of(code: ErrorCode, error: Errors) =
+			ErrorResponse(errorCode = code, errors = FieldError.of(error))
 
 		fun of(code: ErrorCode) = ErrorResponse(errorCode = code)
 		fun of(code: ErrorCode, errors: List<FieldError>) = ErrorResponse(errorCode = code, errors = errors)
@@ -25,8 +26,8 @@ data class FieldError(
 ) {
 	companion object {
 		fun of(field: String, value: String, reason: String) = arrayListOf(FieldError(field, value, reason))
-		fun of(bindingResult: BindingResult) =
-			bindingResult.fieldErrors
+		fun of(errors: Errors): List<FieldError> {
+			return errors.fieldErrors
 				.map {
 					FieldError(
 						field = it.field,
@@ -34,5 +35,6 @@ data class FieldError(
 						reason = it.defaultMessage ?: ""
 					)
 				}
+		}
 	}
 }

@@ -1,6 +1,7 @@
 package me.june.restaurant.errors
 
 import me.june.restaurant.exception.CategoryNotFoundException
+import me.june.restaurant.exception.ValidationException
 import me.june.restaurant.service.DuplicateUsernameException
 import me.june.restaurant.service.UserNotFoundException
 import me.june.restaurant.support.logger
@@ -33,6 +34,12 @@ class ExceptionHandlerController {
 	fun categoryNotFoundException(e: CategoryNotFoundException): ResponseEntity<ErrorResponse> {
 		log.error("handle CategoryNotFoundException", e)
 		return ResponseEntity(ErrorResponse.of(ErrorCode.CATEGORY_NOT_FOUND), HttpStatus.NOT_FOUND)
+	}
+
+	@ExceptionHandler(ValidationException::class)
+	fun validationException(e: ValidationException): ResponseEntity<ErrorResponse> {
+		log.error("handle ValidationException", e)
+		return ResponseEntity(ErrorResponse.of(ErrorCode.VALIDATION_ERROR, e.errors), HttpStatus.BAD_REQUEST)
 	}
 
 	@ExceptionHandler(Exception::class)
