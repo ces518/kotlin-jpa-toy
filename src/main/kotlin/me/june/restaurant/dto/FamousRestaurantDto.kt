@@ -5,6 +5,15 @@ import io.swagger.annotations.ApiModelProperty
 
 class FamousRestaurantDto {
 
+	data class Response(
+		val id: Long,
+		val title: String,
+		val subTitle: String,
+		val description: String,
+		var foodCategory: FoodCategoryDto.Response,
+		var regionCategory: RegionCategoryDto.Response,
+	)
+
 	@ApiModel("맛집 등록 요청")
 	data class CreateRequest(
 		@ApiModelProperty("맛집 명")
