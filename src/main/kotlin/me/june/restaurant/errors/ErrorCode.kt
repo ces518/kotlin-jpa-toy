@@ -11,8 +11,12 @@ enum class ErrorCode(
 
 	INTERNAL_SERVER_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "-10000", "Internal Server Error"),
 
-	DUPLICATE_USER_NAME(HttpStatus.CONFLICT, "-10001", "Duplicate Username"),
+	VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "-10001", "Validation Error"),
+
+	DUPLICATE_USER_NAME(HttpStatus.CONFLICT, "-10002", "Duplicate Username"),
 
 	CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "-20001", "Category NotFound"),
+
+	FAMOUS_RESTUARNT_NOT_FOUND(HttpStatus.NOT_FOUND, "-30001", "FamousRestaurant NotFound"),
 	;
 }
